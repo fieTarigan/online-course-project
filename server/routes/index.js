@@ -1,12 +1,9 @@
-const routes = require('express').Router();
-const authRoutes = require('./Auth');
+const router = require('express').Router();
+const authRouter = require('./Auth');
+const dashboardRouter = require('./Dashboard');
 
-// route.get('/', (req, res) => {
-//   res.json({
-//     message: "Hello world"
-//   })
-// })
+router.use('/users', authRouter);
+router.use('/dashboard', dashboardRouter);
 
-routes.use('/users', authRoutes);
 
-module.exports = routes;
+module.exports = router;
