@@ -1,24 +1,31 @@
-import logo from './logo.svg';
+import React, { useState, useEffect } from 'react';
+import "bootstrap/dist/css/bootstrap.min.css";
 import './App.css';
+import NavbarMenu from './components/NavbarMenu';
+import MainContent from './components/MainContent';
 
 function App() {
+  const [loginStatus, setLoginStatus] = useState(false);
+
+  const loginCbHandler = (result) => {
+    setLoginStatus(result);
+  };
+
+  useEffect(() => {
+    if (localStorage.getItem('token_login')) {
+      setLoginStatus(true);
+    } else {
+      setLoginStatus(false);
+    }
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <div className='main-page container-fluid'>
+        <NavbarMenu loginStatus={loginStatus} loginCbHandler={loginCbHandler} />
+        <MainContent loginStatus={loginStatus} loginCbHandler={loginCbHandler} />
+      </div>
+    </>
   );
 }
 
