@@ -1,6 +1,6 @@
 
 
-class dashboard {
+class DashboardController {
   static async index(req, res) {
     try {
       // get semua course yang diambil user
@@ -12,4 +12,4 @@ class dashboard {
   }
 }
 
-module.exports = dashboard;
+module.exports = DashboardController;

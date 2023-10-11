@@ -17,7 +17,7 @@ const RegisterPage = () => {
     try {
       await axios({
         method: "POST",
-        url: "http://localhost:3000/api/register",
+        url: "http://localhost:3000/api/users/register",
         data: form,
       });
 

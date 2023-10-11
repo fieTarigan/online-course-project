@@ -1,8 +1,9 @@
-const routes = require('express').Router();
-const dashboard = require('../controllers/dashboard');
-const auth = require('../controllers/auth');
+const router = require('express').Router();
+const authRouter = require('./Auth');
+const dashboardRouter = require('./Dashboard');
 
-routes.get('/dashboard', dashboard.index);
-routes.post('/register', auth.registerInput);
+router.use('/users', authRouter);
+router.use('/dashboard', dashboardRouter);
 
-module.exports = routes;
+
+module.exports = router;
