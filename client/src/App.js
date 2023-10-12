@@ -9,10 +9,12 @@ function App() {
 
   const loginCbHandler = (result) => {
     setLoginStatus(result);
+    localStorage.setItem('token_login', result ? 'true' : 'false');
   };
 
   useEffect(() => {
-    if (localStorage.getItem('token_login')) {
+    const isLoggedIn = localStorage.getItem('token_login');
+    if (isLoggedIn === 'true') {
       setLoginStatus(true);
     } else {
       setLoginStatus(false);

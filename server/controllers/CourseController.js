@@ -1,7 +1,6 @@
 const { Course } = require('../models');
 
 class CourseController {
-
   static async index(req, res) {
     try {
       const courses = await Course.findAll(
@@ -36,14 +35,14 @@ class CourseController {
 
   static async createCourse(req, res) {
     try {
-      const { name, desc, image, teacherId, publishDate } = req.body;
+      const { name, desc, image, teacherid, publishdate } = req.body;
 
-      if (!name || !desc || !teacherId || !publishDate) {
+      if (!name || !desc || !teacherid || !publishdate) {
         res.status(400).json({ message: 'Semua bidang harus diisi' });
         return;
       }
 
-      const newDate = new Date(publishDate);
+      const newDate = new Date(publishdate);
 
       if (isNaN(newDate.getTime())) {
         res.status(400).json({ message: 'Tanggal tidak valid' });
@@ -56,8 +55,8 @@ class CourseController {
         name,
         desc,
         image,
-        teacherId,
-        publishDate: newFormattedDate
+        teacherid,
+        publishdate: newFormattedDate
       });
 
       res.status(201).json(courses);
@@ -66,14 +65,13 @@ class CourseController {
     }
   }
 
-
   static async editCourse(req, res) {
     try {
       const id = +req.params.id;
 
-      const { name, desc, image, teacherId, publishDate } = req.body;
+      const { name, desc, image, teacherid, publishdate } = req.body;
 
-      const newDate = new Date(publishDate);
+      const newDate = new Date(publishdate);
 
       if (isNaN(newDate.getTime())) {
         req.status(400).json({ message: 'Invalid Data Format' });
@@ -83,7 +81,7 @@ class CourseController {
 
 
       const courses = await Course.update({
-        name, desc, image, teacherId, publishDate: newFormattedDate
+        name, desc, image, teacherid, publishdate: newFormattedDate
       }, {
         where: { id }
       });

@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { Link } from "react-router-dom";
 import axios from 'axios';
 
-const DashboardPage = () => {
+const AdminDashboardPage = () => {
+  const [users, setUsers] = useState([]);
   const [courses, setCourses] = useState([]);
+  const [usersCourse, setUsersCourses] = useState([]);
 
-  const getCourses = async () => {
+  const getAllData = async () => {
     try {
-      let newCourses = await axios({
+      let newData = await axios({
         method: 'GET',
         url: 'http://localhost:3000/api/dashboard',
         params: {
@@ -15,16 +17,18 @@ const DashboardPage = () => {
         }
       });
 
-      console.log(newCourses.data);
+      console.log(newData.data);
 
-      setCourses(newCourses.data);
+      setUsers(newData.data.Users);
+      setCourses(newData.data.Courses);
+      setUsersCourses(newData.data.rowUserByCourse);
     } catch (error) {
       console.log(error);
     }
   };
 
   useEffect(() => {
-    getCourses();
+    getAllData();
   }, []);
 
   return (
@@ -36,7 +40,6 @@ const DashboardPage = () => {
           </Link>
         </div>
         <div className='w-100'>
-          <p>kasajsajk</p>
           <table className='table table-bordered'>
             <thead>
               <tr>
@@ -50,7 +53,7 @@ const DashboardPage = () => {
                   <tr>No data</tr>
                 ) : (
                   courses.map((course) => {
-                    const { id, name } = course.Course;
+                    const { id, name } = course;
                     return (
                       <tr key={id}>
                         <td>{name}</td>
@@ -72,4 +75,4 @@ const DashboardPage = () => {
   )
 }
 
-export default DashboardPage
+export default AdminDashboardPage

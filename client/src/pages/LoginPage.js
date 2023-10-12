@@ -1,14 +1,13 @@
-import React, { useState } from "react";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
-const LoginPage = () => {
+const LoginPage = (props) => {
+  const { loginCbHandler } = props
   const [form, setForm] = useState({
-    email: "",
-    password: "",
-    usertype: "student", // Default user type
+    email: '',
+    password: '',
   });
-
   const [loginError, setLoginError] = useState(null);
   const navigate = useNavigate();
 
@@ -16,39 +15,39 @@ const LoginPage = () => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleLoginSuccess = (userType) => {
-    // Redirect to the appropriate dashboard based on user type
-    if (userType === "admin") {
-      navigate("/admin-dashboard");
-    } else if (userType === "teacher") {
-      navigate("/teacher-dashboard");
-    } else {
-      navigate("/dashboard");
-    }
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await axios.post("http://localhost:3000/api/users/login", form);
-      console.log("Login berhasil:", response.data);
-      localStorage.setItem("token_login", response.data.token);
+      const response = await axios.post('http://localhost:3000/api/users/login', form);
 
-      // Menentukan jenis pengguna dari respons API (contoh: response.data.usertype)
-      const userType = response.data.usertype || form.usertype;
+      if (response.data.token && response.data.userType) {
+        localStorage.setItem('token', response.data.token);
 
-      // Menggunakan useNavigate untuk mengarahkan pengguna ke dashboard yang sesuai
-      handleLoginSuccess(userType);
+        const userType = response.data.userType;
+        if (userType === 'admin') {
+          navigate('/dashboard/admin');
+        } else if (userType === 'teacher') {
+          navigate('/dashboard/teacher');
+        } else if (userType === 'student') {
+          navigate('/dashboard/student');
+        }
+
+        loginCbHandler(true);
+
+        localStorage.setItem('isLoggedIn', true);
+      } else {
+        setLoginError('Login failed. Invalid response from the server.');
+      }
     } catch (error) {
-      console.error("Login gagal:", error);
-      setLoginError("Login gagal. Periksa email dan password Anda.");
+      console.error('Login failed:', error);
+      setLoginError('Login failed. Check your email and password.');
     }
   };
 
   return (
     <div>
-      <div>Login</div>
+      <h2>Login</h2>
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
           <label className="form-label">Email</label>
@@ -70,26 +69,12 @@ const LoginPage = () => {
             className="form-control"
           />
         </div>
-        <div className="mb-3">
-          <label className="form-label">Login as</label>
-          <select
-            name="usertype"
-            value={form.usertype}
-            onChange={handleChange}
-            className="form-select"
-          >
-            <option value="admin">Admin</option>
-            <option value="teacher">Teacher</option>
-            <option value="student">Student</option>
-          </select>
-        </div>
         <div>
           <button type="submit" className="btn btn-success">
             Login
           </button>
         </div>
       </form>
-
       {loginError && <p>{loginError}</p>}
     </div>
   );
