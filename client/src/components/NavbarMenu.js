@@ -37,6 +37,9 @@ const NavbarMenu = (props) => {
             {loginStatus ? (
               <ul className="navbar-nav ms-auto">
                 <li className="nav-item">
+                  <Link className="nav-link" to="/course">
+                    Course
+                  </Link>
                   <button className="nav-link" onClick={logoutHandler}>
                     Logout
                   </button>

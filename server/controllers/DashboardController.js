@@ -1,17 +1,19 @@
 const { User, UserCourse, Course } = require('../models');
+const jwt = require('jsonwebtoken');
+const secretKey = process.env.SECRET_KEY;
 
 class DashboardController {
   static async index (req, res) {
     try {
-      const token = localStorage.getItem('token_login');
-
-      if (! token) {
+      const decoded = jwt.verify(req.query.token, secretKey);
+      
+      if (! decoded) {
         res.status(401).json({
           message: 'You must login first.'
         });
       }
 
-      const user = await User.findByPk(token.id);
+      const user = await User.findByPk(decoded.id);
 
       // // Kode ini untuk tes di postman
       // const { id } = req.params;

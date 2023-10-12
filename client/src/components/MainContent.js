@@ -6,6 +6,8 @@ import LoginPage from '../pages/LoginPage';
 import DashboardPage from '../pages/DashboardPage';
 import AdminDashboardPage from '../pages/AdminDashboardPage';
 import TeacherDashboardPage from '../pages/TeacherDashboardPage';
+import CoursePage from '../pages/CoursePage';
+import EditProfilePage from '../pages/EditProfilePage';
 
 const MainContent = (props) => {
   const { loginStatus, loginCbHandler } = props;
@@ -22,9 +24,7 @@ const MainContent = (props) => {
           <Route path='student' element={<DashboardPage />} />
           <Route path='editprofile' element={<EditProfilePage />} />
         </Route>
-        <Route path='course'>
-          <Route path=':id' element={<Course />} />
-        </Route>
+        <Route path='course' element={<CoursePage />} />
       </Routes>
     </div>
   );

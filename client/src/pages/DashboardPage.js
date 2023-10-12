@@ -10,6 +10,9 @@ const DashboardPage = () => {
       let newCourses = await axios({
         method: 'GET',
         url: 'http://localhost:3000/api/dashboard',
+        params: {
+          token: localStorage.getItem('token_login')
+        }
       });
 
       console.log(newCourses.data);
@@ -43,10 +46,10 @@ const DashboardPage = () => {
             <tbody>
               {
                 courses.length === 0 ? (
-                  <tr>Loading</tr>
+                  <tr>No data</tr>
                 ) : (
                   courses.map((course) => {
-                    const { id, name } = course;
+                    const { id, name } = course.Course;
                     return (
                       <tr key={id}>
                         <td>{name}</td>
