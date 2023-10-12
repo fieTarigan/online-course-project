@@ -10,7 +10,7 @@ class AuthController {
       const user = await User.findOne({
         where: {
           email
-        },
+        }
       });
 
       if (user) {
@@ -18,6 +18,11 @@ class AuthController {
 
         if (hashPassword) {
           const secretKey = process.env.SECRET_KEY;
+
+          if (!secretKey) {
+            return res.status(500).json({ message: 'Internal server error: Secret key is missing.' });
+          }
+
           const token = jwt.sign(
             {
               id: user.id,
@@ -27,7 +32,8 @@ class AuthController {
           );
 
           res.status(200).json({
-            message: 'Login successful', token
+            message: 'Login successful',
+            token
           });
         } else {
           res.status(401).json({
@@ -37,10 +43,11 @@ class AuthController {
       } else {
         res.status(401).json({
           message: 'Email not found'
-        })
+        });
       }
     } catch (error) {
-      res.status(500).json(error)
+      console.error('Login Error:', error);
+      res.status(500).json({ message: 'An internal server error occurred.' });
     }
   }
   

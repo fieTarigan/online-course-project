@@ -1,6 +1,6 @@
 'use strict';
 const {
-  Model
+  Model, Op
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Course extends Model {
@@ -26,6 +26,22 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         notEmpty: {
           message: "Course name cannot be empty."
+        },
+        isUnique: function (value, next) {
+          Course.findOne({
+            where: {
+              name: value,
+              id: {[Op.ne]: this.id}
+            }
+          }).then((result) => {
+            if (result === null) {
+              return next();
+            } else {
+              return next('Choose another course name, it\'s already used.')
+            }
+          }).catch(() => {
+            return next();
+          })
         }
       }
     },
@@ -55,10 +71,10 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     hooks: {
       beforeValidate: (course, options) => {
-        if (course.image === '') {
+        if (! course.image) {
           course.image = "https://cdn.icon-icons.com/icons2/3782/PNG/512/lecture_trainer_teacher_training_course_education_person_presentation_icon_232053.png";
         }
-        if (course.publishdate === '') {
+        if (! course.publishdate) {
           course.publishdate = new Date();
         }
       },
