@@ -1,18 +1,21 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import './App.css';
-import NavbarMenu from './components/NavbarMenu';
-import MainContent from './components/MainContent';
+import "./App.css";
+import NavbarMenu from "./components/NavbarMenu";
+import MainContent from "./components/MainContent";
 
 function App() {
   const [loginStatus, setLoginStatus] = useState(false);
+  const [userType, setUserType] = useState(false);
 
   const loginCbHandler = (result) => {
     setLoginStatus(result);
+    localStorage.setItem("isLoggedIn", result ? "true" : "false");
   };
 
   useEffect(() => {
-    if (localStorage.getItem('token_login')) {
+    const isLoggedIn = localStorage.getItem("isLoggedIn");
+    if (isLoggedIn) {
       setLoginStatus(true);
     } else {
       setLoginStatus(false);
@@ -21,9 +24,19 @@ function App() {
 
   return (
     <>
-      <div className='main-page container-fluid'>
-        <NavbarMenu loginStatus={loginStatus} loginCbHandler={loginCbHandler} />
-        <MainContent loginStatus={loginStatus} loginCbHandler={loginCbHandler} />
+      <div className="main-page container-fluid">
+        <NavbarMenu
+          loginStatus={loginStatus}
+          loginCbHandler={loginCbHandler}
+          userType={userType}
+          setUserType={setUserType}
+        />
+        <MainContent
+          loginStatus={loginStatus}
+          loginCbHandler={loginCbHandler}
+          userType={userType}
+          setUserType={setUserType}
+        />
       </div>
     </>
   );

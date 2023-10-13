@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import axios from "axios";
 import { Navigate } from "react-router-dom";
 
-const EditProfilePage = () => {
+const ChangePassPage = () => {
   const [form, setForm] = useState({
-    fullname: "",
-    image: "",
+    oldpassword: "",
+    newpassword: "",
   });
   const [errorEdit, setErrorEdit] = useState(null);
 
@@ -31,10 +31,10 @@ const EditProfilePage = () => {
 
       const result = await axios({
         method: "PUT",
-        url: `http://localhost:3000/api/users/updateprof/${response.data.id}`,
+        url: `http://localhost:3000/api/users/updatepwd/${response.data.id}`,
         data: {
-          fullname: form.fullname,
-          image: form.image,
+          oldpassword: form.oldpassword,
+          newpassword: form.newpassword,
         },
       });
 
@@ -43,33 +43,33 @@ const EditProfilePage = () => {
       return <Navigate to="/" replace={true} />
     } catch (error) {
       console.log(error);
-      setErrorEdit('Gagal perbaharui profil.');
+      setErrorEdit(error.response.data.message);
     }
   };
 
   return (
     <div>
-      <div>Edit Profile</div>
+      <div>Edit Password</div>
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
-          <label className="form-label" htmlFor="fullname">
-            Full Name
+          <label className="form-label" htmlFor="oldpassword">
+            Old Password
             <input
-              type="text"
-              name="fullname"
-              value={form.fullname}
+              type="password"
+              name="oldpassword"
+              value={form.oldpassword}
               onChange={handleChange}
               className="form-control"
             />
           </label>
         </div>
         <div className="mb-3">
-          <label className="form-label" htmlFor="image">
-            Image
+          <label className="form-label" htmlFor="newpassword">
+            New Password
             <input
-              type="text"
-              name="image"
-              value={form.image}
+              type="password"
+              name="newpassword"
+              value={form.newpassword}
               onChange={handleChange}
               className="form-control"
             />
@@ -87,4 +87,4 @@ const EditProfilePage = () => {
   );
 };
 
-export default EditProfilePage;
+export default ChangePassPage;

@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 const CoursePage = () => {
   const [courses, setCourses] = useState([]);
 
   useEffect(() => {
-    axios
-      .get('http://localhost:3000/api/courses/')
+    // Ambil daftar kursus dari API
+    axios.get('http://localhost:3000/api/courses/')
       .then((response) => {
         setCourses(response.data);
       })
@@ -17,6 +18,7 @@ const CoursePage = () => {
 
   return (
     <div className="container">
+      <h2>Daftar Kursus</h2>
       <div className="row">
         {courses.map((course) => (
           <div className="col-md-4" key={course.id}>
@@ -27,6 +29,9 @@ const CoursePage = () => {
                 <p className="card-text">{course.desc}</p>
                 <p className="card-text">Teacher ID: {course.teacherId}</p>
                 <p className="card-text">Publish Date: {course.publishDate}</p>
+                <Link to={`${course.id}`} className='btn btn-primary'>
+                  Lihat Detail
+                </Link>
               </div>
             </div>
           </div>
