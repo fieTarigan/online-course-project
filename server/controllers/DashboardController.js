@@ -1,4 +1,5 @@
 const { User, UserCourse, Course } = require('../models');
+// const { Op } = require('sequelize');
 const jwt = require('jsonwebtoken');
 const secretKey = process.env.SECRET_KEY;
 
@@ -13,15 +14,61 @@ class DashboardController {
 
       const decoded = jwt.verify(token, secretKey);
 
-      const user = await User.findByPk(decoded.id);
+      const user = await User.findByPk(decoded.id, {
+        attributes: {
+          exclude: ['password']
+        }
+      });
+
+      const teachers = await User.findAll({
+        where: {usertype: 'teacher'},
+        attributes: {
+          exclude: ['password']
+        }
+      });
+
+      // console.log(user);
 
       if (user.usertype === 'student') {
-        const courses = await UserCourse.findAll({
+        let nCourseActive = 0, nCourseFinished = 0;
+        let usercourses = await UserCourse.findAll({
           where: { studentid: user.id },
           include: Course
         });
+        
+        let coursesid = usercourses.map((usercourse) => {
+          usercourse.Course = JSON.parse(JSON.stringify(usercourse.Course));
 
-        res.status(200).json(courses);
+          usercourse.finishdate ? nCourseFinished++ : nCourseActive++ ;
+
+          const teacherid = usercourse.Course.teacherid;
+          const teacher = teachers.filter((t) => t.id === teacherid);
+
+          console.log('iterasi: ', teacher[0].fullname);
+
+          usercourse.Course.teachername = teacher[0].fullname;
+          usercourse.Course['teacherbio'] = teacher[0].bio;
+          usercourse.Course['teacherimage'] = teacher[0].image;
+          usercourse.Course['teacheremail'] = teacher[0].email;
+
+          return usercourse.Course;
+        })
+
+        let teachersid = usercourses.map((usercourse) => usercourse.Course.teacherid);
+
+        res.status(200).json({
+          user: user,
+          nCourseActive: nCourseActive,
+          nCourseFinished: nCourseFinished,
+          nTeacher: new Set(teachersid).size,
+          courses: coursesid,
+        });
+
+
+
+
+
+
       } else if (user.usertype === 'teacher') {
         const courses = await Course.findAll({
           where: { teacherid: user.id },

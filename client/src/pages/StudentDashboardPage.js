@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, Route, Routes } from "react-router-dom";
+// import { Link, Route, Routes } from "react-router-dom";
 import axios from 'axios';
 import Dashboard from './studentdb/dashboard';
 import Courses from './studentdb/courses';
@@ -7,12 +7,16 @@ import ChangePassPage from './ChangePassPage';
 import EditProfilePage from './EditProfilePage';
 
 const StudentDashboardPage = () => {
-  const [courses, setCourses] = useState([]);
+  const [userData, setUserData] = useState({});
+  const [userDbData, setUserDbData] = useState({
+    nCourse: 0, nCourseActive: 0, nCourseFinished: 0, nTeacher: 0
+  });
+  const [allCourses, setAllCourses] = useState([]);
   const [navBar, setNavBar] = useState("dashboard");
 
   const getCourses = async () => {
     try {
-      let newCourses = await axios({
+      let dbdata = await axios({
         method: 'GET',
         url: 'http://localhost:3000/api/dashboard',
         params: {
@@ -20,14 +24,20 @@ const StudentDashboardPage = () => {
         }
       });
 
-      console.log(newCourses.data);
+      // console.log(dbdata.data.courses[0].id);
 
-      setCourses(newCourses.data);
+      setUserData(dbdata.data.user);
+      setUserDbData({
+        nCourse: dbdata.data.nCourseActive + dbdata.data.nCourseFinished,
+        nCourseActive: dbdata.data.nCourseActive,
+        nCourseFinished: dbdata.data.nCourseFinished,
+        nTeacher: dbdata.data.nTeacher
+      });
+      setAllCourses(dbdata.data.courses);
     } catch (error) {
       console.log(error);
     }
   };
-
 
   const handleClickNav = (type) => {
     setNavBar(type);
@@ -42,28 +52,28 @@ const StudentDashboardPage = () => {
         <div className='studentdb-head'>
           <div className='studentdb-head-top'>
             <div className='studentdb-head-top-left'>
-              <img src='Photo.png' alt='' width='110px' style={{borderRadius:"50%"}} />
+              <img src={userData.image} alt='' width='110px' style={{borderRadius:"50%"}} />
               <div className='studentdb-head-top-left-content'>
-                <div className='studentdb-head-top-left-content-top'>
-                  Kevin Gilbert
+                <div className='studentdb-head-top-left-content-top' style={{textTransform:"capitalize"}}>
+                  { userData.fullname }
                 </div>
-                <div className='studentdb-head-top-left-content-bottom'>
-                  Web Designer & Best-Selling Instructor
+                <div className='studentdb-head-top-left-content-bottom' style={{textTransform:"capitalize"}}>
+                  { userData.bio }
                 </div>
               </div>
             </div>
           </div>
           <div className='studentdb-head-bottom'>
-            <button onClick={(e) => {handleClickNav('dashboard')}} className='studentdb-head-bottom-item'>
+            <button onClick={(e) => {handleClickNav('dashboard')}} className={`studentdb-head-bottom-item ${navBar === "dashboard" ? "active" : ""}`}>
               Dashboard
             </button>
-            <button onClick={(e) => {handleClickNav('courses')}} className='studentdb-head-bottom-item'>
+            <button onClick={(e) => {handleClickNav('courses')}} className={`studentdb-head-bottom-item ${navBar === "courses" ? "active" : ""}`}>
               Courses
             </button>
-            <button onClick={(e) => {handleClickNav('editpwd')}} className='studentdb-head-bottom-item'>
+            <button onClick={(e) => {handleClickNav('editpwd')}} className={`studentdb-head-bottom-item ${navBar === "editpwd" ? "active" : ""}`}>
               Edit Password
             </button>
-            <button onClick={(e) => {handleClickNav('editprofile')}} className='studentdb-head-bottom-item'>
+            <button onClick={(e) => {handleClickNav('editprofile')}} className={`studentdb-head-bottom-item ${navBar === "editprofile" ? "active" : ""}`}>
               Edit Profiles
             </button>
           </div>
@@ -71,9 +81,9 @@ const StudentDashboardPage = () => {
         <div className='studentdb-body'>
           {
             navBar === 'dashboard' ?
-            <Dashboard /> :
+            <Dashboard userDbData={userDbData} /> :
             navBar === 'courses' ?
-            <Courses /> :
+            <Courses allCourses={allCourses} /> :
             navBar === 'editpwd' ?
             <ChangePassPage /> : <EditProfilePage/>
           }
@@ -86,39 +96,7 @@ const StudentDashboardPage = () => {
 
 
 
-        <div className='col-9 mx-auto'>
-          <div className='w-100'>
-            <table className='table table-bordered'>
-              <thead>
-                <tr>
-                  <th>Nama; Course, Enrolled Courses, Active Courses, Completed Courses, Course Teachers</th>
-                  <th>Aksi; Dashboard, Courses, Teachers, Edit pwd, Edit Profile</th>
-                </tr>
-              </thead>
-              <tbody>
-                {
-                  courses.length === 0 ? (
-                    <tr>No data</tr>
-                  ) : (
-                    courses.map((course) => {
-                      const { id, name } = course.Course;
-                      return (
-                        <tr key={id}>
-                          <td>{name}</td>
-                          <td>
-                            <Link to={`/courses/${id}`} className='btn btn-sm btn-info'>
-                              Lihat course
-                            </Link>
-                          </td>
-                        </tr>
-                      );
-                    })
-                  )
-                }
-              </tbody>
-            </table>
-          </div>
-        </div>
+       
       </div>
     
   )

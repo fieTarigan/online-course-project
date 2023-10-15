@@ -1,6 +1,7 @@
 import React from 'react'
 
-const dashboard = () => {
+const dashboard = (props) => {
+  const { userDbData } = props;
   return (
     <>
       <div className='studentdb-body-top'>
@@ -13,7 +14,7 @@ const dashboard = () => {
               </div>
               <div className='studentdb-body-bottom-item-right'>
                 <div className='studentdb-body-bottom-item-right-title'>
-                  957
+                  {userDbData.nCourse}
                 </div>
                 <div className='studentdb-body-bottom-item-right-desc'>
                   Enrolled Courses
@@ -26,7 +27,7 @@ const dashboard = () => {
               </div>
               <div className='studentdb-body-bottom-item-right'>
                 <div className='studentdb-body-bottom-item-right-title'>
-                  957
+                  {userDbData.nCourseActive}
                 </div>
                 <div className='studentdb-body-bottom-item-right-desc'>
                   Active Courses
@@ -39,7 +40,7 @@ const dashboard = () => {
               </div>
               <div className='studentdb-body-bottom-item-right'>
                 <div className='studentdb-body-bottom-item-right-title'>
-                  957
+                  {userDbData.nCourseFinished}
                 </div>
                 <div className='studentdb-body-bottom-item-right-desc'>
                   Completed Courses
@@ -52,7 +53,7 @@ const dashboard = () => {
               </div>
               <div className='studentdb-body-bottom-item-right'>
                 <div className='studentdb-body-bottom-item-right-title'>
-                  957
+                  {userDbData.nTeacher}
                 </div>
                 <div className='studentdb-body-bottom-item-right-desc'>
                   Course Teachers
