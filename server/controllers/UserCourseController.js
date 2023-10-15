@@ -3,10 +3,12 @@ const { UserCourse } = require('../models');
 class UserCourseController {
   static async inputUserCourse (req, res) {
     try {
-      const { studentid, courseid } = req.body;
+      const { studentid, courseid, finishdate } = req.body;
 
       let result = await UserCourse.create({
-        studentid: Number(studentid), courseid: Number(courseid)
+        studentid: Number(studentid),
+        courseid: Number(courseid),
+        finishdate: new Date(finishdate)
       });
 
       res.status(201).json(result);
