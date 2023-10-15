@@ -7,6 +7,255 @@
   pointer-events: none;
 }
 
+.button{
+  border: 0;
+  padding: 0.5rem 1.2rem;
+  color: #FF6636;
+  background-color: #FFEEE8;
+}
+
+.button-2{
+  border: 0;
+  padding: 0.5rem 1.2rem;
+  color: #FFF;
+  background-color: #FF6636;
+}
+
+.nav-link:hover {
+  color: #FF6636;
+}
+
+.nav-link.active-link {
+  border-bottom: 5px solid #FF6636;
+}
+
+.bold-text {
+  font-weight: bold;
+}
+.semi-text {
+  font-weight: 500;
+  color: #6E7485;
+}
+
+
+/* Contact Section - Home Page
+------------------------------*/
+.contact .info-item {
+  background: rgba(33, 37, 41, 0.03);
+  padding: 30px;
+}
+
+.contact .info-item i {
+  font-size: 38px;
+  line-height: 0;
+  color: #FF6636;
+}
+
+.contact .info-item h3 {
+  font-size: 20px;
+  font-weight: 700;
+  margin: 20px 0 10px 0;
+}
+
+.contact .info-item p {
+  padding: 0;
+  line-height: 24px;
+  font-size: 14px;
+  margin-bottom: 0;
+}
+
+.contact .email-form {
+  background: rgba(33, 37, 41, 0.03);
+  padding: 30px;
+  height: 100%;
+}
+
+.contact .email-form .error-message {
+  display: none;
+  background: #FF6636;
+  color: #ffffff;
+  text-align: left;
+  padding: 15px;
+  margin-bottom: 24px;
+  font-weight: 600;
+}
+
+.contact .email-form .sent-message {
+  display: none;
+  color: #ffffff;
+  background: #059652;
+  text-align: center;
+  padding: 15px;
+  margin-bottom: 24px;
+  font-weight: 600;
+}
+
+.contact .email-form .loading {
+  display: none;
+  background: #ffffff;
+  text-align: center;
+  padding: 15px;
+  margin-bottom: 24px;
+}
+
+.contact .email-form .loading:before {
+  content: "";
+  display: inline-block;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  margin: 0 10px -6px 0;
+  border: 3px solid #FF6636;
+  border-top-color:#ffffff;
+  animation: animate-loading 1s linear infinite;
+}
+
+.contact .email-form input[type=text],
+.contact .email-form input[type=email],
+.contact .email-form textarea {
+  font-size: 14px;
+  padding: 10px 15px;
+  box-shadow: none;
+  border-radius: 0;
+  color:black;
+  background-color: rgba( 255, 255, 255, 0.5);
+  border-color: rgba(33, 37, 41, 0.2);
+}
+
+.contact .email-form input[type=text]:focus,
+.contact .email-form input[type=email]:focus,
+.contact .email-form textarea:focus {
+  border-color: #FF6636;
+}
+
+.contact .email-form input[type=text]::-moz-placeholder,
+.contact .email-form input[type=email]::-moz-placeholder,
+.contact .email-form textarea::-moz-placeholder {
+  color: rgba(33, 37, 41, 0.3);
+}
+
+.contact .email-form input[type=text]::placeholder,
+.contact .email-form input[type=email]::placeholder,
+.contact .email-form textarea::placeholder {
+  color: rgba(33, 37, 41, 0.3);
+}
+
+.contact .email-form button[type=submit] {
+  background: #FF6636;
+  color: #ffffff;
+  border: 0;
+  padding: 10px 30px;
+  transition: 0.4s;
+  border-radius: 4px;
+}
+
+.contact .email-form button[type=submit]:hover {
+  background: rgba(232, 69, 69, 0.8);
+}
+
+.contact .section-title {
+  padding: 40px 0;
+}
+
+.contact .section-title h2 {
+  margin-bottom: 20px;
+}
+
+
+
+
+/*--------------------------------------------------------------
+# About
+--------------------------------------------------------------*/
+.years{
+  color: #E9EAF0;
+  font-size: 4.6rem;
+  margin-bottom: 0.8rem;
+  font-weight: 500;
+}
+/*--------------------------------------------------------------
+# Footer
+--------------------------------------------------------------*/
+.footer {
+  color:#ffffff;
+  background-color: #1D2026;
+  font-size: 14px;
+  padding-bottom: 50px;
+}
+
+.footer .footer-top {
+  padding-top: 50px;
+}
+
+.footer .social-links a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: none; /* Menghapus border */
+  font-size: 16px;
+  color: #ffffff;
+  background: rgba(54, 59, 71, 0.4); /* Menambahkan background warna #363B47 40% */
+  margin-right: 10px;
+  transition: 0.3s;
+}
+
+.footer .social-links a:hover {
+  background: #FF6636; /* Mengubah latar belakang saat dihover menjadi #FF6636 */
+}
+
+.footer h4 {
+  color: #FFEEE8;
+  font-size: 16px;
+  font-weight: bold;
+  position: relative;
+  padding-bottom: 12px;
+}
+
+.footer .footer-links {
+  margin-bottom: 30px;
+}
+
+.footer .footer-links ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer .footer-links ul i {
+  padding-right: 2px;
+  font-size: 12px;
+  line-height: 0;
+}
+
+.footer .footer-links ul li {
+  padding: 10px 0;
+  display: flex;
+  align-items: center;
+}
+
+.footer .footer-links ul li:first-child {
+  padding-top: 0;
+}
+
+.footer .footer-links ul a {
+  color: #6E7485;
+  display: inline-block;
+  line-height: 1;
+}
+
+
+/* .footer .footer-links ul a:hover {
+  color: var(--primary-color);
+}
+
+.footer .footer-contact p {
+  margin-bottom: 5px;
+} */
+
+
+
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;

@@ -5,13 +5,13 @@ const secretKey = process.env.SECRET_KEY;
 class DashboardController {
   static async index(req, res) {
     try {
-      const decoded = jwt.verify(req.query.token, secretKey);
+      const token = req.query.token;
 
-      if (!decoded) {
-        res.status(401).json({
-          message: 'You must login first.'
-        });
+      if (token === null || token === 'false') {
+        res.status(401).json({ message: 'You must login first.' });
       }
+
+      const decoded = jwt.verify(token, secretKey);
 
       const user = await User.findByPk(decoded.id);
 

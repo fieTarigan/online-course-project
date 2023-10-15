@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom'; // Import Link
+import { Link } from 'react-router-dom';
 
 const CoursePage = () => {
   const [courses, setCourses] = useState([]);
@@ -29,7 +29,7 @@ const CoursePage = () => {
                 <p className="card-text">{course.desc}</p>
                 <p className="card-text">Teacher ID: {course.teacherId}</p>
                 <p className="card-text">Publish Date: {course.publishDate}</p>
-                <Link to={`${course.id}`} className="btn btn-primary">
+                <Link to={`${course.id}`} className='btn btn-primary'>
                   Lihat Detail
                 </Link>
               </div>
@@ -41,4 +41,4 @@ const CoursePage = () => {
   );
 }
 
-export default CoursePage;
+export default CoursePage
