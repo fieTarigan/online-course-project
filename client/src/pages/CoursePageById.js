@@ -27,8 +27,8 @@ const CoursePageById = () => {
           <h2>{course.name}</h2>
           <img src={course.image} alt={course.name} />
           <p>{course.desc}</p>
-          <p>Teacher ID: {course.teacherId}</p>
-          <p>Publish Date: {course.publishDate}</p>
+          <p>Teacher ID: {course.teacherid.name}</p>
+          <p>Publish Date: {course.publishdate}</p>
         </div>
       ) : (
         <p>Loading...</p>

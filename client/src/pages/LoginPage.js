@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const LoginPage = (props) => {
-  const { loginCbHandler } = props
+  const { loginCbHandler, setUserType } = props;
   const [form, setForm] = useState({
-    email: '',
-    password: '',
+    email: "",
+    password: "",
   });
+
   const [loginError, setLoginError] = useState(null);
   const navigate = useNavigate();
 
@@ -19,29 +20,37 @@ const LoginPage = (props) => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('http://localhost:3000/api/users/login', form);
+      const response = await axios.post(
+        "http://localhost:3000/api/users/login",
+        form
+      );
 
       if (response.data.token && response.data.userType) {
-        localStorage.setItem('token', response.data.token);
+        localStorage.setItem("token_login", response.data.token);
 
-        const userType = response.data.userType;
-        if (userType === 'admin') {
-          navigate('/dashboard/admin');
-        } else if (userType === 'teacher') {
-          navigate('/dashboard/teacher');
-        } else if (userType === 'student') {
-          navigate('/dashboard/student');
-        }
+        // Menentukan jenis pengguna dari respons API (contoh: response.data.usertype)
+        // const userType = response.data.userType;
+        // if (userType === 'admin') {
+        //   navigate('/dashboard/admin');
+        // } else if (userType === 'teacher') {
+        //   navigate('/dashboard/teacher');
+        // } else if (userType === 'student') {
+        //   navigate('/dashboard/student');
+        // }
+        setUserType(response.data.userType);
+        navigate('/dashboard');
 
+        // Menggunakan useNavigate untuk mengarahkan pengguna ke dashboard yang sesuai
         loginCbHandler(true);
 
         localStorage.setItem('isLoggedIn', true);
       } else {
         setLoginError('Login failed. Invalid response from the server.');
       }
+
     } catch (error) {
-      console.error('Login failed:', error);
-      setLoginError('Login failed. Check your email and password.');
+      console.error("Login failed:", error);
+      setLoginError("Login failed. Check your email and password.");
     }
   };
 
@@ -75,6 +84,7 @@ const LoginPage = (props) => {
           </button>
         </div>
       </form>
+
       {loginError && <p>{loginError}</p>}
     </div>
   );

@@ -10,6 +10,7 @@ const RegisterPage = () => {
     password: "",
     usertype: "student",
   });
+  const [errorRegister, setErrorRegister] = useState(null);
 
   const navigate = useNavigate();
 
@@ -24,6 +25,7 @@ const RegisterPage = () => {
       navigate("/dashboard");
     } catch (error) {
       console.log(error);
+      setErrorRegister('Register gagal');
     }
   };
 
@@ -90,6 +92,8 @@ const RegisterPage = () => {
           </button>
         </div>
       </form>
+
+      {errorRegister && <p>{errorRegister}</p>}
     </div>
   );
 };
