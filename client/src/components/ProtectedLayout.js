@@ -9,8 +9,8 @@ const ProtectedLayout = () => {
   }
 
   return (
-    <div>
-      <h1>Dashboard</h1>
+    <>
+      {/* <h1>Dashboard</h1>
       <nav>
         <Link className="btn btn-sm btn-primary" to="/dashboard/changepass">
           Ubah Password
@@ -18,10 +18,10 @@ const ProtectedLayout = () => {
         <Link className="btn btn-sm btn-primary" to="/dashboard/editprofile">
           Edit Profil
         </Link>
-      </nav>
+      </nav> */}
 
       <Outlet />
-    </div>
+    </>
   );
 };
 

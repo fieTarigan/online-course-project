@@ -2,27 +2,30 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Courses', {
+    await queryInterface.createTable('Users', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      name: {
+      fullname: {
         type: Sequelize.STRING
       },
-      desc: {
+      bio: {
         type: Sequelize.STRING
       },
       image: {
         type: Sequelize.STRING
       },
-      teacherid: {
-        type: Sequelize.INTEGER
+      email: {
+        type: Sequelize.STRING
       },
-      publishdate: {
-        type: Sequelize.DATE
+      password: {
+        type: Sequelize.STRING
+      },
+      usertype: {
+        type: Sequelize.ENUM('admin', 'teacher', 'student')
       },
       createdAt: {
         allowNull: false,
@@ -33,8 +36,12 @@ module.exports = {
         type: Sequelize.DATE
       }
     });
+    await queryInterface.addIndex('Users', ['email'], {
+      indexName: 'email',
+      indicesType: 'UNIQUE'
+    });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Courses');
+    await queryInterface.dropTable('Users');
   }
 };

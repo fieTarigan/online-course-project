@@ -10,9 +10,7 @@ const ChangePassPage = () => {
   const [errorEdit, setErrorEdit] = useState(null);
 
   const handleChange = (e) => {
-    const value = e.target.value;
-
-    setForm({ ...form, [e.target.name]: value });
+    setForm({ ...form, [e.target.name]:  e.target.value });
   };
 
   const handleSubmit = async (e) => {
@@ -26,8 +24,6 @@ const ChangePassPage = () => {
           token: localStorage.getItem('token_login')
         }
       });
-
-      console.log('data', response.data);
 
       const result = await axios({
         method: "PUT",
@@ -48,42 +44,43 @@ const ChangePassPage = () => {
   };
 
   return (
-    <div>
-      <div>Edit Password</div>
-      <form onSubmit={handleSubmit}>
-        <div className="mb-3">
-          <label className="form-label" htmlFor="oldpassword">
-            Old Password
+    <>
+      <div className='studentdb-body-top'>
+        Edit Password
+      </div>
+      <form className="studentdb-body2-bottom" autoComplete="off" onSubmit={handleSubmit}>
+        <div className="registerpage-body-top">
+          <div className="registerpage-body-top-field">
+            <label className="registerpage-body-top-field-label" htmlFor="oldpassword">
+              Old Password
+            </label>
             <input
               type="password"
               name="oldpassword"
               value={form.oldpassword}
               onChange={handleChange}
-              className="form-control"
+              className="registerpage-body-top-field-input"
             />
-          </label>
-        </div>
-        <div className="mb-3">
-          <label className="form-label" htmlFor="newpassword">
-            New Password
+          </div>
+          <div className="registerpage-body-top-field">
+            <label className="registerpage-body-top-field-label" htmlFor="newpassword">
+              New Password
+            </label>
             <input
               type="password"
               name="newpassword"
               value={form.newpassword}
               onChange={handleChange}
-              className="form-control"
+              className="registerpage-body-top-field-input"
             />
-          </label>
-        </div>
-        <div>
-          <button type="submit" className="btn btn-success">
+          </div>
+          <button type="submit" className="registerpage-body-bottom-right">
             Edit
           </button>
         </div>
       </form>
-
-      {errorEdit && <p>{errorEdit}</p>}
-    </div>
+      {errorEdit && <div className="registerpage-error">{errorEdit}</div>}
+    </>
   );
 };
 

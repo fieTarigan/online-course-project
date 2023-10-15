@@ -61,6 +61,8 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     teacherid: DataTypes.INTEGER,
+    price: DataTypes.INTEGER,
+    label: DataTypes.STRING,
     publishdate: {
       type: DataTypes.DATE,
       allowNull: true,

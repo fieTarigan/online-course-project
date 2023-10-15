@@ -2,7 +2,6 @@
 const {
   Model, Op
 } = require('sequelize');
-const bcrypt = require('bcrypt');
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     /**
@@ -27,6 +26,14 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         notEmpty: {
           message: "Fullname cannot be empty."
+        }
+      }
+    },
+    bio: {
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty: {
+          message: "Bio cannot be empty."
         }
       }
     },
@@ -84,7 +91,7 @@ module.exports = (sequelize, DataTypes) => {
           msg: "User type must be Teacher or Student"
         }
       }
-    },
+    }
   }, {
     hooks: {
       beforeValidate: (user, options) => {

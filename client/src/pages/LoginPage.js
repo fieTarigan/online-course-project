@@ -44,6 +44,7 @@ const LoginPage = (props) => {
         loginCbHandler(true);
 
         localStorage.setItem('isLoggedIn', true);
+        localStorage.setItem('userType', response.data.userType);
       } else {
         setLoginError('Login failed. Invalid response from the server.');
       }
@@ -55,37 +56,50 @@ const LoginPage = (props) => {
   };
 
   return (
-    <div>
-      <h2>Login</h2>
-      <form onSubmit={handleSubmit}>
-        <div className="mb-3">
-          <label className="form-label">Email</label>
-          <input
-            type="email"
-            name="email"
-            value={form.email}
-            onChange={handleChange}
-            className="form-control"
-          />
+    <div className="registerpage">
+      <div className="registerpage-title">
+        Login to your account
+      </div>
+      <form className="registerpage-body" autoComplete="off" onSubmit={handleSubmit}>
+        <div className="registerpage-body-top">
+          <div className="registerpage-body-top-field">
+            <label className="registerpage-body-top-field-label" htmlFor="email">
+              Email*
+            </label>
+            <input
+              type="text"
+              name="email"
+              autoComplete="false"
+              value={form.email}
+              onChange={handleChange}
+              className="registerpage-body-top-field-input"
+            />
+          </div>
+          <div className="registerpage-body-top-field">
+            <label className="registerpage-body-top-field-label" htmlFor="password">
+              Password*
+            </label>
+            <input
+              type="password"
+              name="password"
+              autoComplete="false"
+              value={form.password}
+              onChange={handleChange}
+              className="registerpage-body-top-field-input"
+            />
+          </div>
         </div>
-        <div className="mb-3">
-          <label className="form-label">Password</label>
-          <input
-            type="password"
-            name="password"
-            value={form.password}
-            onChange={handleChange}
-            className="form-control"
-          />
-        </div>
-        <div>
-          <button type="submit" className="btn btn-success">
+        <div className="registerpage-body-bottom">
+          <div className="registerpage-body-bottom-left">
+            
+          </div>
+          <button type="submit" className="registerpage-body-bottom-right">
             Login
           </button>
         </div>
       </form>
 
-      {loginError && <p>{loginError}</p>}
+      {loginError && <div className="registerpage-error">{loginError}</div>}
     </div>
   );
 };

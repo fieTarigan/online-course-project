@@ -14,7 +14,7 @@ const MainContent = (props) => {
   const { loginStatus, loginCbHandler, userType, setUserType } = props;
 
   return (
-    <div className="container p-3">
+    <div>
       <Routes>
         <Route path="" element={<HomePage />} />
         <Route path="register" element={<RegisterPage />} />
@@ -29,9 +29,6 @@ const MainContent = (props) => {
         />
         <Route path="dashboard" element={<ProtectedLayout />}>
           <Route path="" element={<DashboardPage userType={userType} />} />
-          {/* <Route path='admin' element={<AdminDashboardPage />} />
-          <Route path='teacher' element={<TeacherDashboardPage />} />
-          <Route path='student' element={<StudentDashboardPage />} /> */}
           <Route path="editprofile" element={<EditProfilePage />} />
           <Route path="changepass" element={<ChangePassPage />} />
         </Route>

@@ -15,30 +15,17 @@ class DashboardController {
 
       const user = await User.findByPk(decoded.id);
 
-      // // Kode ini untuk tes di postman
-      // const { id } = req.params;
-      // console.log('id: ', id);
-      // const user = await User.findByPk(id);
-      // console.log('user: ', user.toJSON());
-
       if (user.usertype === 'student') {
         const courses = await UserCourse.findAll({
-          where: {
-            studentid: user.id
-          },
+          where: { studentid: user.id },
           include: Course
         });
 
         res.status(200).json(courses);
       } else if (user.usertype === 'teacher') {
         const courses = await Course.findAll({
-          where: {
-            teacherid: user.id
-          },
-          include: [{
-            model: User,
-            through: UserCourse
-          }]
+          where: { teacherid: user.id },
+          include: [{ model: User, through: UserCourse }]
         });
 
         res.status(200).json(courses);
