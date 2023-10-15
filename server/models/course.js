@@ -16,7 +16,9 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "courseid"
       });
       Course.belongsTo(models.User, {
-        foreignKey: "teacherid"
+        foreignKey: "teacherid",
+        as: "teacher",
+        targetKey: 'id',
       });
     }
   }
@@ -31,7 +33,7 @@ module.exports = (sequelize, DataTypes) => {
           Course.findOne({
             where: {
               name: value,
-              id: {[Op.ne]: this.id}
+              id: { [Op.ne]: this.id }
             }
           }).then((result) => {
             if (result === null) {
@@ -61,6 +63,8 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     teacherid: DataTypes.INTEGER,
+    price: DataTypes.INTEGER,
+    label: DataTypes.STRING,
     publishdate: {
       type: DataTypes.DATE,
       allowNull: true,
@@ -71,10 +75,10 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     hooks: {
       beforeValidate: (course, options) => {
-        if (! course.image) {
+        if (!course.image) {
           course.image = "https://cdn.icon-icons.com/icons2/3782/PNG/512/lecture_trainer_teacher_training_course_education_person_presentation_icon_232053.png";
         }
-        if (! course.publishdate) {
+        if (!course.publishdate) {
           course.publishdate = new Date();
         }
       },

@@ -30,6 +30,14 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
+    bio: {
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty: {
+          message: "Bio cannot be empty."
+        }
+      }
+    },
     image: {
       type: DataTypes.STRING,
       allowNull: true,
@@ -84,7 +92,7 @@ module.exports = (sequelize, DataTypes) => {
           msg: "User type must be Teacher or Student"
         }
       }
-    },
+    }
   }, {
     hooks: {
       beforeValidate: (user, options) => {

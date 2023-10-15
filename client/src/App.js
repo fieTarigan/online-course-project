@@ -7,7 +7,7 @@ import Footer from "./components/Footer";
 
 function App() {
   const [loginStatus, setLoginStatus] = useState(false);
-  const [userType, setUserType] = useState(false);
+  const [userType, setUserType] = useState(localStorage.getItem('userType'));
 
   const loginCbHandler = (result) => {
     setLoginStatus(result);
@@ -16,7 +16,7 @@ function App() {
 
   useEffect(() => {
     const isLoggedIn = localStorage.getItem("isLoggedIn");
-    if (isLoggedIn) {
+    if (isLoggedIn === "true") {
       setLoginStatus(true);
     } else {
       setLoginStatus(false);
@@ -25,7 +25,7 @@ function App() {
 
   return (
     <>
-      <div className="main-page container-fluid">
+      <div style={{ width: "100%", margin: "0", padding: "0" }}>
         <NavbarMenu
           loginStatus={loginStatus}
           loginCbHandler={loginCbHandler}

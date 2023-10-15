@@ -1,44 +1,77 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+
 
 const CoursePage = () => {
+  const navigate = useNavigate();
   const [courses, setCourses] = useState([]);
 
   useEffect(() => {
-    // Ambil daftar kursus dari API
     axios.get('http://localhost:3000/api/courses/')
       .then((response) => {
         setCourses(response.data);
       })
       .catch((error) => {
-        console.error('Error fetching data:', error);
+        console.error('Error fetching course data:', error);
       });
   }, []);
 
+  const navigateToDetail = (courseId) => {
+    navigate(`/courses/${courseId}`);
+  };
+
   return (
-    <div className="container">
-      <h2>Daftar Kursus</h2>
-      <div className="row">
-        {courses.map((course) => (
-          <div className="col-md-4" key={course.id}>
-            <div className="card mb-3">
-              <img src={course.image} className="card-img-top" alt={course.name} />
-              <div className="card-body">
-                <h5 className="card-title">{course.name}</h5>
-                <p className="card-text">{course.desc}</p>
-                <p className="card-text">Teacher ID: {course.teacherId}</p>
-                <p className="card-text">Publish Date: {course.publishDate}</p>
-                <Link to={`${course.id}`} className='btn btn-primary'>
-                  Lihat Detail
-                </Link>
+    <>
+      <div className='course-page container'>
+        <h1>All Courses</h1>
+        <div className='course-list' style={{ display: 'flex', flexWrap: 'wrap', paddingTop: "50px" }}>
+          {courses.map((course) => (
+            <div className='homepage-course-item' key={course.id} style={{ flex: '0 0 calc(33.33% - 20px)', margin: '10px', cursor: 'pointer' }} onClick={() => navigateToDetail(course.id)}>
+              <img className='homepage-course-item-image' src={course.image} alt={course.name} />
+              <div className='homepage-course-item-body'>
+                <div className='homepage-course-item-body-top'>
+                  <div className='homepage-course-item-body-top-left'>
+                    {course.label}
+                  </div>
+                  <div className='homepage-course-item-body-top-right'>
+                    ${course.price}
+                  </div>
+                </div>
+                <div className='homepage-course-item-body-bottom' style={{ display: '-webkit-box', WebkitBoxOrient: 'vertical', WebkitLineClamp: 2, overflow: 'hidden' }}>
+                  {course.name}
+                </div>
+              </div>
+              <div className='homepage-course-item-footer'>
+                <div className='homepage-course-item-footer-left'>
+                  {course.teacher && (
+                    <React.Fragment>
+                      <img
+                        src={course.teacher.image}
+                        alt={course.teacher.fullname}
+                        width='25px'
+                        style={{ borderRadius: "50%", border: "none" }} // Menghilangkan garis border
+                      />
+                      <div className='homepage-course-item-footer-left-text'>
+                        {course.teacher.fullname}
+                      </div>
+                    </React.Fragment>
+                  )}
+                </div>
+
+                <div className='homepage-course-item-footer-right'>
+                  <img src='User.svg' alt='' width='20px' />
+                  <div className='homepage-course-item-footer-right-text'>
+                    {course.studentsEnrolled}
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
-    </div>
+    </>
   );
-}
+};
 
-export default CoursePage
+export default CoursePage;

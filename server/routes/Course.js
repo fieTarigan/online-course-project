@@ -11,6 +11,6 @@ courseRouter.put('/update/:id', CourseController.editCourse);
 courseRouter.get('/delete/:id', CourseController.deleteCourse);
 
 // courseRouter.post('/', CourseController.inputCourse);
-courseRouter.post('/usercourse', UserCourseController.inputUserCourse);
+courseRouter.post('/enroll', UserCourseController.inputUserCourse);
 
 module.exports = courseRouter;

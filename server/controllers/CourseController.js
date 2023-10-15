@@ -1,13 +1,16 @@
-const { Course } = require('../models');
+const { Course, User } = require('../models');
 
 class CourseController {
   static async index(req, res) {
     try {
       const courses = await Course.findAll(
         {
-          order: [
-            ['id', 'asc']
-          ]
+          include: {
+            model: User,
+            as: 'teacher',
+            attributes: ['fullname', 'image'],
+          },
+
         }
       );
 
@@ -21,7 +24,13 @@ class CourseController {
     try {
       const id = +req.params.id;
 
-      const courses = await Course.findByPk(id);
+      const courses = await Course.findByPk(id, {
+        include: {
+          model: User,
+          as: 'teacher',
+          attributes: ['fullname', 'image'],
+        },
+      });
 
       if (courses) {
         res.status(200).json(courses);
@@ -35,9 +44,9 @@ class CourseController {
 
   static async createCourse(req, res) {
     try {
-      const { name, desc, image, teacherid, publishdate } = req.body;
+      const { name, desc, image, teacherid, publishdate, price, label } = req.body;
 
-      if (!name || !desc || !teacherid || !publishdate) {
+      if (!name || !desc || !teacherid || !publishdate || !price || !label) {
         res.status(400).json({ message: 'Semua bidang harus diisi' });
         return;
       }
@@ -56,7 +65,9 @@ class CourseController {
         desc,
         image,
         teacherid,
-        publishdate: newFormattedDate
+        publishdate: newFormattedDate,
+        price,
+        label
       });
 
       res.status(201).json(courses);
@@ -69,29 +80,30 @@ class CourseController {
     try {
       const id = +req.params.id;
 
-      const { name, desc, image, teacherid, publishdate } = req.body;
+      const { name, desc, image, teacherid, publishdate, price, label } = req.body;
 
       const newDate = new Date(publishdate);
 
       if (isNaN(newDate.getTime())) {
-        req.status(400).json({ message: 'Invalid Data Format' });
+        return res.status(400).json({ message: 'Invalid Data Format' });
       }
+
 
       const newFormattedDate = newDate.toISOString().split('T')[0];
 
 
       const courses = await Course.update({
-        name, desc, image, teacherid, publishdate: newFormattedDate
+        name, desc, image, teacherid, publishdate: newFormattedDate, price, label
       }, {
         where: { id }
       });
-
       if (courses[0] === 1) {
-        res.status(201).json({ message: 'Course Updated' });
+        res.status(200).json({ message: 'Course Updated' });
       } else {
         res.status(404).json({ message: 'Something Wrong' })
       }
     } catch (error) {
+      console.log('Something went wrong')
       res.status(500).json(error);
     }
   }

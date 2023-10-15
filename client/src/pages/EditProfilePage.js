@@ -5,6 +5,7 @@ import { Navigate } from "react-router-dom";
 const EditProfilePage = () => {
   const [form, setForm] = useState({
     fullname: "",
+    bio: "",
     image: "",
   });
   const [errorEdit, setErrorEdit] = useState(null);
@@ -27,13 +28,14 @@ const EditProfilePage = () => {
         }
       });
 
-      console.log('data', response.data);
+      // console.log('data', response.data);
 
       const result = await axios({
         method: "PUT",
         url: `http://localhost:3000/api/users/updateprof/${response.data.id}`,
         data: {
           fullname: form.fullname,
+          bio: form.bio,
           image: form.image,
         },
       });
@@ -48,42 +50,59 @@ const EditProfilePage = () => {
   };
 
   return (
-    <div>
-      <div>Edit Profile</div>
-      <form onSubmit={handleSubmit}>
-        <div className="mb-3">
-          <label className="form-label" htmlFor="fullname">
-            Full Name
+    <>
+      <div className='studentdb-body-top'>
+        Edit Profile
+      </div>
+      <form className="studentdb-body2-bottom" autoComplete="off" onSubmit={handleSubmit}>
+        <div className="registerpage-body-top">
+          <div className="registerpage-body-top-field">
+            <label className="registerpage-body-top-field-label" htmlFor="fullname">
+              Full Name
+            </label>
             <input
               type="text"
               name="fullname"
+              autoComplete="false"
               value={form.fullname}
               onChange={handleChange}
-              className="form-control"
+              className="registerpage-body-top-field-input"
             />
-          </label>
-        </div>
-        <div className="mb-3">
-          <label className="form-label" htmlFor="image">
-            Image
+          </div>
+          <div className="registerpage-body-top-field">
+            <label className="registerpage-body-top-field-label" htmlFor="bio">
+              Bio or Profession
+            </label>
+            <input
+              type="text"
+              name="bio"
+              autoComplete="false"
+              value={form.bio}
+              onChange={handleChange}
+              className="registerpage-body-top-field-input"
+            />
+          </div>
+          <div className="registerpage-body-top-field">
+            <label className="registerpage-body-top-field-label" htmlFor="image">
+              Image
+            </label>
             <input
               type="text"
               name="image"
+              autoComplete="false"
               value={form.image}
               onChange={handleChange}
-              className="form-control"
+              className="registerpage-body-top-field-input"
             />
-          </label>
-        </div>
-        <div>
-          <button type="submit" className="btn btn-success">
+          </div>
+          <button type="submit" className="registerpage-body-bottom-right">
             Edit
           </button>
         </div>
       </form>
 
-      {errorEdit && <p>{errorEdit}</p>}
-    </div>
+      {errorEdit && <div className="registerpage-error">{errorEdit}</div>}
+    </>
   );
 };
 

@@ -5,7 +5,6 @@ import logo from "../assets/logo.png";
 const NavbarMenu = (props) => {
   const { loginStatus, loginCbHandler } = props;
   const navigate = useNavigate();
-
   const [activeItem, setActiveItem] = useState("");
 
   const loginHandler = () => {
@@ -13,7 +12,7 @@ const NavbarMenu = (props) => {
   };
 
   const logoutHandler = () => {
-    window.localStorage.removeItem("token_login");
+    window.localStorage.removeItem('token_login');
     loginCbHandler(false);
     navigate("/");
   };
@@ -29,10 +28,17 @@ const NavbarMenu = (props) => {
         <Link className="navbar-brand" to="/">
           <img src={logo} alt="main-logo" style={{ width: "140px", height: "auto" }} />
         </Link>
-        <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <button
+          className="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
           <span className="navbar-toggler-icon"></span>
         </button>
-
         <div className="collapse navbar-collapse align-items-center" id="navbarNav">
           <ul className="navbar-nav ms-auto nav_ul">
             <li className={`nav-item ${activeItem === "" ? "active" : ""}`} onClick={() => handleItemClick("")}>

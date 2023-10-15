@@ -48,14 +48,16 @@ class AuthController {
   static async registerInput(req, res) {
     try {
       // console.log('request body:', req.body);
-      const { fullname, image, email, password, usertype } = req.body;
+      const { fullname, bio, image, email, password, usertype } = req.body;
       // console.log('image:', image);
 
-      let result = await User.create({
-        fullname, image, email, password, usertype
+      let user = await User.create({
+        fullname, bio, image, email, password, usertype
       });
 
-      res.status(201).json(result);
+      // console.log('masuk');
+
+      res.status(201).json(user.toJSON());
     } catch (error) {
       res.status(500).json(error);
     }
@@ -83,9 +85,9 @@ class AuthController {
     try {
       const id = +req.params.id;
 
-      const { fullname, image } = req.body;
+      const { fullname, bio, image } = req.body;
 
-      const user = await User.update({ fullname, image }, {
+      const user = await User.update({ fullname, bio, image }, {
         where: { id }
       });
 
@@ -128,6 +130,22 @@ class AuthController {
       }
 
 
+    } catch (error) {
+      res.status(500).json(error);
+    }
+  }
+
+  static async getUsers(req, res) {
+    try {
+      const user = await User.findAll(
+        {
+          order: [
+            ['id', 'asc']
+          ]
+        }
+      );
+
+      res.status(201).json(user);
     } catch (error) {
       res.status(500).json(error);
     }

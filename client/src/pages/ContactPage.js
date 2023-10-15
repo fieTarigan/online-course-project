@@ -36,7 +36,7 @@ const ContactPage = () => {
   ];
   return (
     <div className='p-5'>
-      <section id='hero' className='hero'>
+      <section id='hero' className='hero container'>
         <div class="row gy-4 align-items-stretch justify-content-between features-item">
           <div class="col-lg-5 d-flex justify-content-center flex-column">
             <h2 className='bold-text'>Connect with Us</h2>
