@@ -27,8 +27,8 @@ const CoursePage = () => {
               <div className="card-body">
                 <h5 className="card-title">{course.name}</h5>
                 <p className="card-text">{course.desc}</p>
-                <p className="card-text">Teacher ID: {course.teacherId}</p>
-                <p className="card-text">Publish Date: {course.publishDate}</p>
+                <p className="card-text">Teacher ID: {course.teacherid}</p>
+                <p className="card-text">Publish Date: {course.publishdate}</p>
                 <Link to={`${course.id}`} className='btn btn-primary'>
                   Lihat Detail
                 </Link>

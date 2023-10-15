@@ -9,6 +9,8 @@ import CoursePage from "../pages/CoursePage";
 import EditProfilePage from "../pages/EditProfilePage";
 import ChangePassPage from "../pages/ChangePassPage";
 import CoursePageById from "../pages/CoursePageById";
+import ContactPage from "../pages/ContactPage";
+import AboutPage from "../pages/AboutPage";
 
 const MainContent = (props) => {
   const { loginStatus, loginCbHandler, userType, setUserType } = props;
@@ -34,6 +36,8 @@ const MainContent = (props) => {
         </Route>
         <Route path="courses" element={<CoursePage />} />
         <Route path="courses/:id" element={<CoursePageById />} />
+        <Route path="contact" element={<ContactPage />} />
+        <Route path="about" element={<AboutPage />} />
       </Routes>
     </div>
   );

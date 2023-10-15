@@ -47,15 +47,15 @@ class AuthController {
   
   static async registerInput (req, res) {
     try {
-      console.log('request body:', req.body);
+      // console.log('request body:', req.body);
       const { fullname, bio, image, email, password, usertype } = req.body;
-      console.log('image:', image);
+      // console.log('image:', image);
 
       let user = await User.create({
         fullname, bio, image, email, password, usertype
       });
 
-      console.log('masuk');
+      // console.log('masuk');
 
       res.status(201).json(user.toJSON());
     } catch (error) {

@@ -5,7 +5,7 @@ import StudentDashboardPage from "./StudentDashboardPage";
 
 const DashboardPage = (props) => {
   const { userType } = props;
-  console.log('user type:', userType);
+  // console.log('user type:', userType);
   
   if ( userType === 'admin' ) {
     return <AdminDashboardPage />;
