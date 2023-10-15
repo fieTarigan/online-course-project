@@ -35,17 +35,21 @@ class CourseController {
 
   static async createCourse(req, res) {
     try {
-      const { name, desc, image, teacherid, publishdate } = req.body;
+      const { 
+        name, desc, image, teacherid, price, label, publishdate 
+      } = req.body;
+      // console.log('server');
+      // console.log('reqbody',req.body);
 
       if (!name || !desc || !teacherid || !publishdate) {
-        res.status(400).json({ message: 'Semua bidang harus diisi' });
+        res.status(400).json({ message: 'All field must be filled in.' });
         return;
       }
 
       const newDate = new Date(publishdate);
 
       if (isNaN(newDate.getTime())) {
-        res.status(400).json({ message: 'Tanggal tidak valid' });
+        res.status(400).json({ message: 'Publish date is not valid' });
         return;
       }
 
@@ -56,11 +60,16 @@ class CourseController {
         desc,
         image,
         teacherid,
+        price,
+        label, 
         publishdate: newFormattedDate
       });
 
+      // console.log('course:', courses);
+
       res.status(201).json(courses);
     } catch (error) {
+      // console.log('error:', error);
       res.status(500).json(error);
     }
   }
@@ -99,6 +108,7 @@ class CourseController {
   static async deleteCourse(req, res) {
     try {
       const id = +req.params.id;
+      console.log('server, id:', id);
 
       const courses = await Course.destroy({
         where: { id }

@@ -65,7 +65,7 @@ class AuthController {
 
   static getId (req, res) {
     try {
-      console.log('masuk', req.query);
+      // console.log('masuk', req.query);
       const token = req.query.token;
       
       if ( token === null || token === 'false') {
@@ -73,7 +73,7 @@ class AuthController {
       }
 
       const decoded = jwt.verify(token, secretKey);
-      console.log('decoded:', decoded);
+      // console.log('decoded:', decoded);
 
       res.status(200).json(decoded);
     } catch (error) {
@@ -85,19 +85,43 @@ class AuthController {
     try {
       const id = +req.params.id;
 
-      const { fullname, bio, image } = req.body;
-
-      const user = await User.update({ fullname, bio, image }, {
+      const user = await User.findOne({
         where: { id }
       });
 
-      if (user[0] === 1) {
+      let { fullname, bio, image } = req.body;
+
+      let i = 0;
+
+      if (fullname === null || fullname === "") {
+        fullname = user.fullname;
+        i++;
+      }
+      if (bio === null || bio === "") {
+        bio = user.bio;
+        i++;
+      }
+      if (image === null || image === "") {
+        image = user.image;
+        i++;
+      }
+
+      if (i === 3) {
+        res.status(404).json({ message: 'At least one field is filled.' });
+        return;
+      }
+
+      const newUser = await User.update({ fullname, bio, image }, {
+        where: { id }
+      });
+
+      if (newUser[0] === 1) {
         res.status(201).json({ message: 'Profile updated' });
       } else {
         res.status(404).json({ message: 'Update failed' });
       }
     } catch (error) {
-      res.status(500).json(error);
+      res.status(500).json({ message: 'Something wrong' });
     }
   }
   
@@ -114,6 +138,21 @@ class AuthController {
       const checkPass = await bcrypt.compare(oldpassword, user.password);
       console.log('check:', checkPass);
       if (checkPass) {
+        if (oldpassword === newpassword) {
+          res.status(404).json({ 
+            message: 'Old and new password must differ.' 
+          });
+          return ;
+        }
+
+        if (newpassword === '' || newpassword === null) {
+          res.status(404).json({ 
+            message: 'New password cannot null.' 
+          });
+          return ;
+        }
+
+
         const updatedUser = await User.update({
           password: bcrypt.hashSync(newpassword, 5)
         }, {
@@ -128,10 +167,8 @@ class AuthController {
       } else {
         res.status(404).json({ message: 'Old password is false' });
       }
-
-      
     } catch (error) {
-      res.status(500).json(error);
+      res.status(500).json({ message: 'All field must filled in' });
     }
   }
 }

@@ -17,8 +17,8 @@ const EditProfilePage = () => {
   };
 
   const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
-      e.preventDefault();
 
       const response = await axios({
         method: "GET",
@@ -40,12 +40,17 @@ const EditProfilePage = () => {
         },
       });
 
-      console.log(result);
+      // console.log(result.data.message);
+      setErrorEdit(result.data.message);
+      window.location.reload();
 
-      return <Navigate to="/" replace={true} />
+      // return <Navigate to="/" replace={true} />
     } catch (error) {
       console.log(error);
-      setErrorEdit('Gagal perbaharui profil.');
+      setErrorEdit(error.response.data.message);
+    } finally {
+      setForm({});
+      e.target.reset();
     }
   };
 

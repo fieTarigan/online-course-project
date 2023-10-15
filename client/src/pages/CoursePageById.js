@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
+import Footer from '../components/Footer';
 
 const CoursePageById = () => {
   const location = useLocation();
@@ -20,20 +21,24 @@ const CoursePageById = () => {
   }, [id]);
 
   return (
-    <div className="container">
-      <h1>Courses</h1>
-      {course ? (
-        <div>
-          <h2>{course.name}</h2>
-          <img src={course.image} alt={course.name} />
-          <p>{course.desc}</p>
-          <p>Teacher ID: {course.teacherId}</p>
-          <p>Publish Date: {course.publishDate}</p>
-        </div>
-      ) : (
-        <p>Loading...</p>
-      )}
-    </div>
+    <>
+      <div className="container">
+        <h1>Courses</h1>
+        {course ? (
+          <div>
+            <h2>{course.name}</h2>
+            <img src={course.image} alt={course.name} />
+            <p>{course.desc}</p>
+            <p>Teacher ID: {course.teacherId}</p>
+            <p>Publish Date: {course.publishDate}</p>
+          </div>
+        ) : (
+          <p>Loading...</p>
+        )}
+      </div>
+      <Footer />
+    </>
+    
   );
 }
 

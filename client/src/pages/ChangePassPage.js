@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { Navigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 
 const ChangePassPage = () => {
   const [form, setForm] = useState({
@@ -9,14 +9,15 @@ const ChangePassPage = () => {
   });
   const [errorEdit, setErrorEdit] = useState(null);
 
+  // const navigate = useNavigate();
+
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]:  e.target.value });
   };
 
   const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
-      e.preventDefault();
-
       const response = await axios({
         method: "GET",
         url: `http://localhost:3000/api/users/getid`,
@@ -34,12 +35,15 @@ const ChangePassPage = () => {
         },
       });
 
-      console.log(result);
+      setErrorEdit(result.data.message);
 
-      return <Navigate to="/" replace={true} />
+      // navigate('/dashboard');
     } catch (error) {
       console.log(error);
       setErrorEdit(error.response.data.message);
+    } finally {
+      setForm({});
+      e.target.reset();
     }
   };
 
@@ -48,7 +52,7 @@ const ChangePassPage = () => {
       <div className='studentdb-body-top'>
         Edit Password
       </div>
-      <form className="studentdb-body2-bottom" autoComplete="off" onSubmit={handleSubmit}>
+      <form id="formhere" className="studentdb-body2-bottom" autoComplete="off" onSubmit={handleSubmit}>
         <div className="registerpage-body-top">
           <div className="registerpage-body-top-field">
             <label className="registerpage-body-top-field-label" htmlFor="oldpassword">

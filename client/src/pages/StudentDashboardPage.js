@@ -88,14 +88,6 @@ const StudentDashboardPage = () => {
             <ChangePassPage /> : <EditProfilePage/>
           }
         </div>
-
-
-
-
-
-
-
-
        
       </div>
     

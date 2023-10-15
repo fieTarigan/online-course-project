@@ -1,96 +1,102 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import axios from "axios";
+import axios from 'axios';
+import Dashboard from './teacherdb/dashboard';
+import Courses from './teacherdb/courses';
+import CreateCourse from './teacherdb/createcourse';
+import ChangePassPage from './ChangePassPage';
+import EditProfilePage from './EditProfilePage';
 
 const TeacherDashboardPage = () => {
-  const [courses, setCourses] = useState([]);
+  const [userData, setUserData] = useState({});
+  const [userDbData, setUserDbData] = useState({
+    nCourse: 0, nStudent: 0, // nCourseFinished: 0, nTeacher: 0
+  });
+  const [allCourses, setAllCourses] = useState([]);
+  const [navBar, setNavBar] = useState("dashboard");
 
-  const getAllData = async () => {
+  const getCourses = async () => {
     try {
-      let newData = await axios({
-        method: "GET",
-        url: "http://localhost:3000/api/dashboard",
+      let dbdata = await axios({
+        method: 'GET',
+        url: 'http://localhost:3000/api/dashboard',
         params: {
-          token: localStorage.getItem("token_login"),
-        },
+          token: localStorage.getItem('token_login')
+        }
       });
 
-      console.log(newData.data);
+      // console.log(dbdata.data.courses[0].id);
 
-      setCourses(newData.data);
+      setUserData(dbdata.data.user);
+      setUserDbData({
+        nCourse: dbdata.data.nCourse,
+        nStudent: dbdata.data.nStudent,
+        // nCourseFinished: dbdata.data.nCourseFinished,
+        // nTeacher: dbdata.data.nTeacher
+      });
+      setAllCourses(dbdata.data.courses);
     } catch (error) {
       console.log(error);
     }
   };
 
+  const handleClickNav = (type) => {
+    setNavBar(type);
+  };
+
   useEffect(() => {
-    getAllData();
+    getCourses();
   }, []);
 
   return (
-    <section className="px-12">
-      <div className="grid grid-flow-row gap-5 text-neutral-600 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-        {courses.map((course) => {
-          const { id, name, desc, image, teacherid, publishdate, Users } =
-            course;
-          return (
-            <div className="my-8 rounded shadow-lg shadow-gray-900 bg-gray-800 duration-300 hover:-translate-y-1">
-              <button _href="link" className="cursor-pointer">
-                <figure>
-                  <div className="flex justify-center items-center">
-                    <img
-                      src={image}
-                      alt=""
-                      className="rounded-t h-56 object-contain text-center"
-                    />
-                  </div>
-
-                  <figcaption className="p-4">
-                    <p className="text-lg mb-4 font-bold leading-relaxed text-gray-300">
-                      {name}
-                    </p>
-                    <small>
-                      <ul className="text-gray-400">
-                        {Users.map((user) => {
-                          return <li key={user.id}>{user.fullname}</li>;
-                        })}
-                      </ul>
-                    </small>
-                    <p className="text-lg mb-4 font-bold leading-relaxed text-gray-300">
-                      {desc}
-                    </p>
-                    <div className="flex justify-between items-center">
-                      <small className="leading-5">Teacher: {teacherid}</small>
-                      <small className="leading-5">
-                        Date Publish: {publishdate}
-                      </small>
-                    </div>
-
-                    <div className="flex justify-center items-center">
-                      <a
-                        href="/novels/update/<%= data.id %>"
-                        className="text-gray-400 hover:text-gray-100 mx-2"
-                      >
-                        <i className="material-icons-outlined text-base">edit</i>
-                      </a>
-                      <a
-                        href="/novels/delete/<%= data.id %>"
-                        className="text-gray-400 hover:text-gray-100 mx-2"
-                      >
-                        <i className="material-icons-round text-base">
-                          delete_outline
-                        </i>
-                      </a>
-                    </div>
-                  </figcaption>
-                </figure>
-              </button>
+      <div className='studentdb'>
+        <div className='studentdb-head'>
+          <div className='studentdb-head-top'>
+            <div className='studentdb-head-top-left'>
+              <img src={userData.image} alt='' width='110px' style={{borderRadius:"50%"}} />
+              <div className='studentdb-head-top-left-content'>
+                <div className='studentdb-head-top-left-content-top' style={{textTransform:"capitalize"}}>
+                  { userData.fullname }
+                </div>
+                <div className='studentdb-head-top-left-content-bottom' style={{textTransform:"capitalize"}}>
+                  { userData.bio }
+                </div>
+              </div>
             </div>
-          );
-        })}
+          </div>
+          <div className='studentdb-head-bottom'>
+            <button onClick={(e) => {handleClickNav('dashboard')}} className={`studentdb-head-bottom-item ${navBar === "dashboard" ? "active" : ""}`}>
+              Dashboard
+            </button>
+            <button onClick={(e) => {handleClickNav('courses')}} className={`studentdb-head-bottom-item ${navBar === "courses" ? "active" : ""}`}>
+              Courses
+            </button>
+            <button onClick={(e) => {handleClickNav('newcourse')}} className={`studentdb-head-bottom-item ${navBar === "newcourse" ? "active" : ""}`}>
+              Create New Course
+            </button>
+            <button onClick={(e) => {handleClickNav('editpwd')}} className={`studentdb-head-bottom-item ${navBar === "editpwd" ? "active" : ""}`}>
+              Edit Password
+            </button>
+            <button onClick={(e) => {handleClickNav('editprofile')}} className={`studentdb-head-bottom-item ${navBar === "editprofile" ? "active" : ""}`}>
+              Edit Profiles
+            </button>
+          </div>
+        </div>
+        <div className='studentdb-body'>
+          {
+            navBar === 'dashboard' ?
+            <Dashboard userDbData={userDbData} /> :
+            navBar === 'courses' ?
+            <Courses allCourses={allCourses} /> :
+            navBar === 'newcourse' ?
+            <CreateCourse userData={userData} /> :
+            navBar === 'editpwd' ?
+            <ChangePassPage /> : <EditProfilePage/>
+          }
+        </div>
+       
       </div>
-    </section>
-  );
-};
+    
+  )
+}
 
 export default TeacherDashboardPage;

@@ -19,17 +19,16 @@ class DashboardController {
           exclude: ['password']
         }
       });
-
-      const teachers = await User.findAll({
-        where: {usertype: 'teacher'},
-        attributes: {
-          exclude: ['password']
-        }
-      });
-
       // console.log(user);
 
       if (user.usertype === 'student') {
+        const teachers = await User.findAll({
+          where: {usertype: 'teacher'},
+          attributes: {
+            exclude: ['password']
+          }
+        });
+
         let nCourseActive = 0, nCourseFinished = 0;
         let usercourses = await UserCourse.findAll({
           where: { studentid: user.id },
@@ -44,7 +43,7 @@ class DashboardController {
           const teacherid = usercourse.Course.teacherid;
           const teacher = teachers.filter((t) => t.id === teacherid);
 
-          console.log('iterasi: ', teacher[0].fullname);
+          // console.log('iterasi: ', teacher[0].fullname);
 
           usercourse.Course.teachername = teacher[0].fullname;
           usercourse.Course['teacherbio'] = teacher[0].bio;
@@ -65,17 +64,35 @@ class DashboardController {
         });
 
 
-
-
-
-
+        
       } else if (user.usertype === 'teacher') {
-        const courses = await Course.findAll({
+        let nStudent = 0;
+        let courses = await Course.findAll({
           where: { teacherid: user.id },
           include: [{ model: User, through: UserCourse }]
         });
+        courses = JSON.parse(JSON.stringify(courses));
 
-        res.status(200).json(courses);
+        for (let course of courses) {
+          nStudent = nStudent + course.Users.length;
+          course['nstudent'] = course.Users.length;
+        }
+
+        res.status(200).json({
+          user: user,
+          nCourse: courses.length,
+          nStudent: nStudent,
+          courses: courses
+        });
+
+
+
+
+
+
+
+
+        
       } else if (user.usertype === 'admin') {
         const users = await User.findAll();
         const courses = await Course.findAll();

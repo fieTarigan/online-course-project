@@ -1,5 +1,6 @@
 import React from "react";
 import { Navigate, Outlet } from "react-router-dom";
+import Footer from '../components/Footer';
 
 const ProtectedLayout = () => {
   const token = localStorage.getItem("token_login");
@@ -10,8 +11,14 @@ const ProtectedLayout = () => {
 
   return (
     <>
-
-      <Outlet />
+      <div style={{marginBottom:"4vh",minHeight:"54.1vh"}}>
+        <Outlet />
+      </div>
+      <div >
+        <Footer />
+      </div>
+      
+      
     </>
   );
 };
