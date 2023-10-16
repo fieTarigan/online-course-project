@@ -1,3 +1,4 @@
+
 const router = require('express').Router();
 const authRouter = require('./Auth');
 const dashboardRouter = require('./Dashboard');
@@ -11,3 +12,4 @@ router.use('/courses', courseRouter);
 
 
 module.exports = router;
+

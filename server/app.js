@@ -1,3 +1,4 @@
+
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
@@ -14,3 +15,4 @@ app.use('/api', router);
 app.listen(port, () => {
   console.log(`App is listening on ${port}`);
 })
+

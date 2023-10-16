@@ -1,3 +1,4 @@
+
 const HomeController = require('./HomeController');
 const AuthController = require('./AuthController');
 const DashboardController = require('./DashboardController');
@@ -8,3 +9,4 @@ module.exports = {
   HomeController, AuthController, DashboardController, CourseController,
   UserCourseController
 }
+
