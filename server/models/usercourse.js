@@ -21,7 +21,14 @@ module.exports = (sequelize, DataTypes) => {
   }
   UserCourse.init({
     studentid: DataTypes.INTEGER,
-    courseid: DataTypes.INTEGER
+    courseid: DataTypes.INTEGER,
+    finishdate: {
+      type: DataTypes.DATE,
+      allowNull: true,
+      validate: {
+        isDate: true
+      }
+    },
   }, {
     sequelize,
     modelName: 'UserCourse',

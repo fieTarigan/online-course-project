@@ -15,6 +15,9 @@ module.exports = {
       courseid: {
         type: Sequelize.INTEGER
       },
+      finishdate: {
+        type: Sequelize.DATE
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

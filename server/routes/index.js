@@ -1,11 +1,15 @@
-const route = require('express').Router();
 
-route.get('/', (req, res) => {
-  res.json({
-    message: "Hello world"
-  })
-})
+const router = require('express').Router();
+const authRouter = require('./Auth');
+const dashboardRouter = require('./Dashboard');
+const courseRouter = require('./Course');
+const { HomeController } = require('../controllers');
+
+router.get('/', HomeController.index);
+router.use('/users', authRouter);
+router.use('/dashboard', dashboardRouter);
+router.use('/courses', courseRouter);
 
 
+module.exports = router;
 
-module.exports = route;

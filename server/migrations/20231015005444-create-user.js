@@ -12,6 +12,9 @@ module.exports = {
       fullname: {
         type: Sequelize.STRING
       },
+      bio: {
+        type: Sequelize.STRING
+      },
       image: {
         type: Sequelize.STRING
       },
@@ -32,6 +35,10 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       }
+    });
+    await queryInterface.addIndex('Users', ['email'], {
+      indexName: 'email',
+      indicesType: 'UNIQUE'
     });
   },
   async down(queryInterface, Sequelize) {

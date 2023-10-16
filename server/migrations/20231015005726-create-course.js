@@ -21,6 +21,12 @@ module.exports = {
       teacherid: {
         type: Sequelize.INTEGER
       },
+      price: {
+        type: Sequelize.INTEGER
+      },
+      label: {
+        type: Sequelize.STRING
+      },
       publishdate: {
         type: Sequelize.DATE
       },

@@ -1,7 +1,8 @@
 'use strict';
 const {
-  Model
+  Model, Op
 } = require('sequelize');
+const bcrypt = require('bcrypt');
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     /**
@@ -29,6 +30,14 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
+    bio: {
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty: {
+          message: "Bio cannot be empty."
+        }
+      }
+    },
     image: {
       type: DataTypes.STRING,
       allowNull: true,
@@ -37,10 +46,30 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     email: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       validate: {
         notEmpty: {
           message: "Email cannot be empty."
+        },
+        isEmail: {
+          args: true,
+          msg: "Input value must be an email"
+        },
+        isUnique: function (value, next) {
+          User.findOne({
+            where: {
+              email: value,
+              id: {[Op.ne]: this.id}
+            }
+          }).then((result) => {
+            if (result === null) {
+              return next();
+            } else {
+              return next('Choose another email. This email already in use.');
+            }
+          }).catch((error) => {
+            return next();
+          })
         }
       }
     },
@@ -57,16 +86,23 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         notEmpty: {
           message: "User type cannot be empty."
+        },
+        isIn: {
+          args: [['admin', 'teacher', 'student']],
+          msg: "User type must be Teacher or Student"
         }
       }
-    },
+    }
   }, {
     hooks: {
       beforeValidate: (user, options) => {
-        if (user.image === '') {
+        if (user.image === '' || user.image === null || user.image === undefined) {
           user.image = "https://cdn.icon-icons.com/icons2/1812/PNG/96/4213460-account-avatar-head-person-profile-user_115386.png";
         }
       },
+      beforeCreate: (user, options) => {
+        user.password = bcrypt.hashSync(String(user.password), 5);
+      }
     },
     sequelize,
     modelName: 'User',

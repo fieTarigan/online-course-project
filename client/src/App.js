@@ -1,24 +1,44 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./App.css";
+import NavbarMenu from "./components/NavbarMenu";
+import MainContent from "./components/MainContent";
 
 function App() {
+  const [loginStatus, setLoginStatus] = useState(false);
+  const [userType, setUserType] = useState(localStorage.getItem('userType'));
+
+  const loginCbHandler = (result) => {
+    setLoginStatus(result);
+    localStorage.setItem("isLoggedIn", result ? "true" : "false");
+  };
+
+  useEffect(() => {
+    const isLoggedIn = localStorage.getItem("isLoggedIn");
+    if (isLoggedIn === "true") {
+      setLoginStatus(true);
+    } else {
+      setLoginStatus(false);
+    }
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <div style={{width:"100%",margin:"0",padding:"0"}}>
+        <NavbarMenu
+          loginStatus={loginStatus}
+          loginCbHandler={loginCbHandler}
+          userType={userType}
+          setUserType={setUserType}
+        />
+        <MainContent
+          loginStatus={loginStatus}
+          loginCbHandler={loginCbHandler}
+          userType={userType}
+          setUserType={setUserType}
+        />
+      </div>
+    </>
   );
 }
 
