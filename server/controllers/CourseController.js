@@ -78,19 +78,22 @@ class CourseController {
     try {
       const id = +req.params.id;
 
-      const { name, desc, image, teacherid, publishdate } = req.body;
+      const { name, desc, image, price, label } = req.body;
+      console.log('masuk server:');
+      console.log('body:', req.body);
 
-      const newDate = new Date(publishdate);
+      // const newDate = new Date(publishdate);
 
-      if (isNaN(newDate.getTime())) {
-        req.status(400).json({ message: 'Invalid Data Format' });
-      }
+      // if (isNaN(newDate.getTime())) {
+      //   req.status(400).json({ message: 'Invalid Data Format' });
+      // }
 
-      const newFormattedDate = newDate.toISOString().split('T')[0];
+      // const newFormattedDate = newDate.toISOString().split('T')[0];
 
 
       const courses = await Course.update({
-        name, desc, image, teacherid, publishdate: newFormattedDate
+        name, desc, image, price: Number(price), label
+        // name, desc, image, teacherid, publishdate: newFormattedDate
       }, {
         where: { id }
       });

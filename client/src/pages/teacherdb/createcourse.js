@@ -126,7 +126,7 @@ const CreateCourse = (props) => {
           </div>
           {errorEdit && <div className="registerpage-error">{errorEdit}</div>}
           <button type="submit" className="registerpage-body-bottom-right">
-            Edit
+            Save
           </button>
         </div>
       </form>

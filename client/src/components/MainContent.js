@@ -31,8 +31,8 @@ const MainContent = (props) => {
         />
         <Route path="dashboard" element={<ProtectedLayout />}>
           <Route path="" element={<DashboardPage userType={userType} />} />
-          <Route path="editprofile" element={<EditProfilePage />} />
-          <Route path="changepass" element={<ChangePassPage />} />
+          {/* <Route path="editprofile" element={<EditProfilePage />} />
+          <Route path="changepass" element={<ChangePassPage />} /> */}
         </Route>
         <Route path="courses" element={<CoursePage />} />
         <Route path="courses/:id" element={<CoursePageById />} />

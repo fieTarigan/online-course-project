@@ -1,14 +1,25 @@
-import React from 'react'
-import editimg from '../../assets/edit_FILL0.png'
-import deleteimg from '../../assets/delete_forever.png'
+import React, { useState } from 'react';
+import Button from 'react-bootstrap/Button';
+import editimg from '../../assets/edit_FILL0.png';
+import deleteimg from '../../assets/delete_forever.png';
 import axios from 'axios';
+import VerticalFormModal from './verticalformmodal';
 
 const Courses = (props) => {
   const { allCourses } = props;
+  const [modalShow, setModalShow] = useState(false);
+  const [theForm, setTheForm] = useState({
+    id: 0,
+    name: "",
+    desc: "",
+    image: "",
+    price: 0,
+    label: ""
+  });
 
   const handleDelete = async (id) => {
     try {
-      console.log('client');
+      console.log('client delete');
       console.log('id: ', id);
 
       const response = await axios({
@@ -23,6 +34,39 @@ const Courses = (props) => {
       console.log(error);
     }
   };
+
+  const handleEdit = (course) => {
+    console.log('client edit');
+    console.log('course: ', course);
+
+    setTheForm({
+      id: course.id,
+      name: course.name,
+      desc: course.desc,
+      image: course.image,
+      price: course.price,
+      label: course.label
+    });
+
+    setModalShow(true);
+  }
+
+  const handleEditClose = (course) => {
+    console.log('client edit');
+    console.log('course: ', course);
+
+    setTheForm({
+      id: 0,
+      name: "",
+      desc: "",
+      image: "",
+      price: 0,
+      label: ""
+    });
+
+    setModalShow(false);
+  }
+
   return (
     <>
       <div className='studentdb-body-top'>
@@ -55,16 +99,18 @@ const Courses = (props) => {
                 <div className='homepage-course-item-footer-right'>
                   {/* <img src='User.svg' alt='' width='20px'/> */}
                   <div className='homepage-course-item-footer-right-text'>
-                    <a
-                      href="/novels/update/<%= data.id %>"
-                      style={{marginRight:"1vh"}}
+                    <Button
+                      variant='primary'
+                      onClick={() => handleEdit(course)}
+                      style={{border:"0",backgroundColor:"transparent",margin:"0",padding:"0"}}
                       // class="text-gray-400 hover:text-gray-100 mx-2"
                     >
                       <img src={editimg} alt='edit'/>
-                    </a>
+                    </Button>
+                    
                     <button
                       onClick={() => handleDelete(course.id)}
-                      style={{border:"0",backgroundColor:"transparent",margin:"0",padding:"0"}}
+                      style={{border:"0",backgroundColor:"transparent",margin:"0",padding:"0",marginLeft:"1vh"}}
                       // class="text-gray-400 hover:text-gray-100 mx-2"
                     >
                       <img src={deleteimg} alt='delete'/>
@@ -74,7 +120,11 @@ const Courses = (props) => {
               </div>
             </div>
             ))}
-            
+            <VerticalFormModal 
+                      show={modalShow}
+                      onHide={handleEditClose}
+                      courseData={theForm}
+                    />
           </div>
     </>
   )
