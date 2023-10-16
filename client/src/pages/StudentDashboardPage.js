@@ -48,49 +48,49 @@ const StudentDashboardPage = () => {
   }, []);
 
   return (
-      <div className='studentdb'>
-        <div className='studentdb-head'>
-          <div className='studentdb-head-top'>
-            <div className='studentdb-head-top-left'>
-              <img src={userData.image} alt='' width='110px' style={{borderRadius:"50%"}} />
-              <div className='studentdb-head-top-left-content'>
-                <div className='studentdb-head-top-left-content-top' style={{textTransform:"capitalize"}}>
-                  { userData.fullname }
-                </div>
-                <div className='studentdb-head-top-left-content-bottom' style={{textTransform:"capitalize"}}>
-                  { userData.bio }
-                </div>
+    <div className='studentdb'>
+      <div className='studentdb-head'>
+        <div className='studentdb-head-top'>
+          <div className='studentdb-head-top-left'>
+            <img src={userData.image} alt='' width='110px' style={{ borderRadius: "50%" }} />
+            <div className='studentdb-head-top-left-content'>
+              <div className='studentdb-head-top-left-content-top' style={{ textTransform: "capitalize" }}>
+                {userData.fullname}
+              </div>
+              <div className='studentdb-head-top-left-content-bottom' style={{ textTransform: "capitalize" }}>
+                {userData.bio}
               </div>
             </div>
           </div>
-          <div className='studentdb-head-bottom'>
-            <button onClick={(e) => {handleClickNav('dashboard')}} className={`studentdb-head-bottom-item ${navBar === "dashboard" ? "active" : ""}`}>
-              Dashboard
-            </button>
-            <button onClick={(e) => {handleClickNav('courses')}} className={`studentdb-head-bottom-item ${navBar === "courses" ? "active" : ""}`}>
-              Courses
-            </button>
-            <button onClick={(e) => {handleClickNav('editpwd')}} className={`studentdb-head-bottom-item ${navBar === "editpwd" ? "active" : ""}`}>
-              Edit Password
-            </button>
-            <button onClick={(e) => {handleClickNav('editprofile')}} className={`studentdb-head-bottom-item ${navBar === "editprofile" ? "active" : ""}`}>
-              Edit Profiles
-            </button>
-          </div>
         </div>
-        <div className='studentdb-body'>
-          {
-            navBar === 'dashboard' ?
+        <div className='studentdb-head-bottom'>
+          <button onClick={(e) => { handleClickNav('dashboard') }} className={`studentdb-head-bottom-item ${navBar === "dashboard" ? "active" : ""}`}>
+            Dashboard
+          </button>
+          <button onClick={(e) => { handleClickNav('courses') }} className={`studentdb-head-bottom-item ${navBar === "courses" ? "active" : ""}`}>
+            Courses
+          </button>
+          <button onClick={(e) => { handleClickNav('editpwd') }} className={`studentdb-head-bottom-item ${navBar === "editpwd" ? "active" : ""}`}>
+            Edit Password
+          </button>
+          <button onClick={(e) => { handleClickNav('editprofile') }} className={`studentdb-head-bottom-item ${navBar === "editprofile" ? "active" : ""}`}>
+            Edit Profiles
+          </button>
+        </div>
+      </div>
+      <div className='studentdb-body'>
+        {
+          navBar === 'dashboard' ?
             <Dashboard userDbData={userDbData} /> :
             navBar === 'courses' ?
-            <Courses allCourses={allCourses} /> :
-            navBar === 'editpwd' ?
-            <ChangePassPage /> : <EditProfilePage/>
-          }
-        </div>
-       
+              <Courses allCourses={allCourses} /> :
+              navBar === 'editpwd' ?
+                <ChangePassPage /> : <EditProfilePage />
+        }
       </div>
-    
+
+    </div>
+
   )
 }
 

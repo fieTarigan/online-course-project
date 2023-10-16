@@ -19,29 +19,11 @@ const CoursePageById = () => {
     axios.get(`http://localhost:3000/api/courses/${id}`)
       .then((response) => {
         setCourse(response.data);
-        checkEnrollmentStatus();
       })
       .catch((error) => {
         console.error('Error fetching data:', error);
       });
   }, [id]);
-
-  const checkEnrollmentStatus = () => {
-    if (studentid) {
-      axios.get(`http://localhost:3000/api/courses/usercourse/${studentid}/${id}`)
-        .then((response) => {
-          if (response.data && response.data.finishdate) {
-            setEnrolled(true);
-            setCompleted(true);
-          } else if (response.data) {
-            setEnrolled(true);
-          }
-        })
-        .catch((error) => {
-          console.error('Error checking enrollment status:', error);
-        });
-    }
-  };
 
   const handleEnrollCourse = () => {
     if (studentid) {
@@ -94,8 +76,6 @@ const CoursePageById = () => {
           <img src={course.image} className="card-img-top" alt={course.name} />
           <div className="card-body">
             <p className="card-text">{course.desc}</p>
-            {/* <p className="card-text">Teacher ID: {course.teacherid}</p>
-              <p className="card-text">Publish Date: {course.publishdate}</p> */}
             <button
               onClick={handleEnrollCourse}
               disabled={enrolled || completed}
@@ -104,8 +84,9 @@ const CoursePageById = () => {
             >
               {enrolled ? (completed ? "Selesai" : "Course Enrolled") : "Enroll Course"}
             </button>
+            {/* Tampilkan tombol "Finish Course" jika sudah diambil dan belum selesai */}
             {enrolled && !completed && (
-              <button onClick={handleCompleteCourse} className="btn btn-succes" style={{ marginRight: '10px' }}>
+              <button onClick={handleCompleteCourse} className="btn btn-success" style={{ marginRight: '10px' }}>
                 Finish Course
               </button>
             )}
@@ -119,6 +100,7 @@ const CoursePageById = () => {
       <ToastContainer />
     </>
   );
+
 }
 
 export default CoursePageById;

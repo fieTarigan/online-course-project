@@ -5,6 +5,14 @@ const bcrypt = require('bcrypt')
 const secretKey = process.env.SECRET_KEY;
 
 class AuthController {
+  static async getUser(req, res) {
+    try {
+      const user = await User.findAll();
+      res.json(user);
+    } catch (error) {
+      res.json(error)
+    }
+  }
   static async login(req, res) {
     try {
       const { email, password } = req.body;
@@ -44,8 +52,8 @@ class AuthController {
       res.status(500).json({ message: 'An internal server error occurred.' });
     }
   }
-  
-  static async registerInput (req, res) {
+
+  static async registerInput(req, res) {
     try {
       // console.log('request body:', req.body);
       const { fullname, bio, image, email, password, usertype } = req.body;
@@ -63,12 +71,12 @@ class AuthController {
     }
   }
 
-  static getId (req, res) {
+  static getId(req, res) {
     try {
       // console.log('masuk', req.query);
       const token = req.query.token;
-      
-      if ( token === null || token === 'false') {
+
+      if (token === null || token === 'false') {
         res.status(401).json({ message: 'You must login first.' });
       }
 
@@ -81,7 +89,7 @@ class AuthController {
     }
   }
 
-  static async editProfile (req, res) {
+  static async editProfile(req, res) {
     try {
       const id = +req.params.id;
 
@@ -124,8 +132,8 @@ class AuthController {
       res.status(500).json({ message: 'Something wrong' });
     }
   }
-  
-  static async editPassword (req, res) {
+
+  static async editPassword(req, res) {
     try {
       const id = +req.params.id;
 
@@ -139,17 +147,17 @@ class AuthController {
       console.log('check:', checkPass);
       if (checkPass) {
         if (oldpassword === newpassword) {
-          res.status(404).json({ 
-            message: 'Old and new password must differ.' 
+          res.status(404).json({
+            message: 'Old and new password must differ.'
           });
-          return ;
+          return;
         }
 
         if (newpassword === '' || newpassword === null) {
-          res.status(404).json({ 
-            message: 'New password cannot null.' 
+          res.status(404).json({
+            message: 'New password cannot null.'
           });
-          return ;
+          return;
         }
 
 
@@ -158,7 +166,7 @@ class AuthController {
         }, {
           where: { id }
         });
-  
+
         if (updatedUser[0] === 1) {
           res.status(201).json({ message: 'Password updated' });
         } else {
