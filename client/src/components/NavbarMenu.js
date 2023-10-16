@@ -1,11 +1,18 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import logo from "../assets/logo.png";
 
 const NavbarMenu = (props) => {
   const { loginStatus, loginCbHandler } = props;
   const navigate = useNavigate();
+  const location = useLocation();
   const [activeItem, setActiveItem] = useState("");
+
+  useEffect(() => {
+    // Memeriksa URL saat komponen dimuat ulang dan mengatur activeItem sesuai URL
+    const pathname = location.pathname.replace("/", "");
+    setActiveItem(pathname || "");
+  }, [location]);
 
   const loginHandler = () => {
     loginCbHandler(true);
@@ -16,7 +23,7 @@ const NavbarMenu = (props) => {
     loginCbHandler(false);
     navigate("/");
   };
-  
+
   const handleItemClick = (item) => {
     setActiveItem(item);
     navigate(`/${item}`);

@@ -29,8 +29,25 @@ const CoursePage = () => {
                 <div className="card-body">
                   <h5 className="card-title">{course.name}</h5>
                   <p className="card-text">{course.desc}</p>
-                  <p className="card-text">Teacher ID: {course.teacherid}</p>
-                  <p className="card-text">Publish Date: {course.publishdate}</p>
+                  {/* <p className="card-text">Teacher ID: {course.teacherid}</p>
+                  <p className="card-text">Publish Date: {course.publishdate}</p> */}
+                  {/* <div className='homepage-course-item-footer pb-2'>
+                    <div className='homepage-course-item-footer-left'>
+                      {course.teacher && (
+                        <React.Fragment>
+                          <img
+                            src={course.teacher.image}
+                            alt={course.teacher.fullname}
+                            width='25px'
+                            style={{ borderRadius: "50%", border: "none" }} // Menghilangkan garis border
+                          />
+                          <div className='homepage-course-item-footer-left-text'>
+                            {course.teacher.fullname}
+                          </div>
+                        </React.Fragment>
+                      )}
+                    </div>
+                  </div> */}
                   <Link to={`${course.id}`} className='btn btn-primary'>
                     Lihat Detail
                   </Link>
@@ -40,9 +57,9 @@ const CoursePage = () => {
           ))}
         </div>
       </div>
-      <Footer/>
+      <Footer />
     </>
-    
+
   );
 }
 

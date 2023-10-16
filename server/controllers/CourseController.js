@@ -35,8 +35,8 @@ class CourseController {
 
   static async createCourse(req, res) {
     try {
-      const { 
-        name, desc, image, teacherid, price, label, publishdate 
+      const {
+        name, desc, image, teacherid, price, label, publishdate
       } = req.body;
       // console.log('server');
       // console.log('reqbody',req.body);
@@ -61,7 +61,7 @@ class CourseController {
         image,
         teacherid,
         price,
-        label, 
+        label,
         publishdate: newFormattedDate
       });
 

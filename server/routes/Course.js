@@ -1,6 +1,6 @@
 const courseRouter = require('express').Router();
-const { 
-  CourseController, UserCourseController 
+const {
+  CourseController, UserCourseController
 } = require('../controllers');
 
 
@@ -12,5 +12,6 @@ courseRouter.get('/delete/:id', CourseController.deleteCourse);
 
 // courseRouter.post('/', CourseController.inputCourse);
 courseRouter.post('/usercourse', UserCourseController.inputUserCourse);
+courseRouter.post('/complete', UserCourseController.completeUserCourse);
 
 module.exports = courseRouter;
