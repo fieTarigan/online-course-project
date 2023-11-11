@@ -1,8 +1,8 @@
 {
   "development": {
     "username": "postgres",
-    "password": "admin",
-    "database": "online_course_project3",
+    "password": "rathian12",
+    "database": "online_course_project2",
     "host": "127.0.0.1",
     "dialect": "postgres"
   },
