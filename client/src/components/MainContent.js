@@ -6,8 +6,8 @@ import LoginPage from "../pages/LoginPage";
 import ProtectedLayout from "../components/ProtectedLayout";
 import DashboardPage from "../pages/DashboardPage";
 import CoursePage from "../pages/CoursePage";
-import EditProfilePage from "../pages/EditProfilePage";
-import ChangePassPage from "../pages/ChangePassPage";
+// import EditProfilePage from "../pages/EditProfilePage";
+// import ChangePassPage from "../pages/ChangePassPage";
 import CoursePageById from "../pages/CoursePageById";
 import ContactPage from "../pages/ContactPage";
 import AboutPage from "../pages/AboutPage";
@@ -31,8 +31,8 @@ const MainContent = (props) => {
         />
         <Route path="dashboard" element={<ProtectedLayout />}>
           <Route path="" element={<DashboardPage userType={userType} />} />
-          <Route path="editprofile" element={<EditProfilePage />} />
-          <Route path="changepass" element={<ChangePassPage />} />
+          {/* <Route path="editprofile" element={<EditProfilePage />} />
+          <Route path="changepass" element={<ChangePassPage />} /> */}
         </Route>
         <Route path="courses" element={<CoursePage />} />
         <Route path="courses/:id" element={<CoursePageById />} />

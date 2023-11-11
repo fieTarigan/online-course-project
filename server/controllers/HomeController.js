@@ -27,7 +27,7 @@ class HomeController {
         attributes: ['teacherid', [sequelize.fn('COUNT', sequelize.col('teacherid')), 'nCourse']],
         group: 'teacherid'
       });
-      nCoursePerTeacher = JSON.parse(JSON.stringify(nCoursePerTeacher));
+      nCoursePerTeacher = JSON.parse(JSON.stringify(nCoursePerTeacher));  
 
       let courses = await Course.findAll({});
       courses = JSON.parse(JSON.stringify(courses));
